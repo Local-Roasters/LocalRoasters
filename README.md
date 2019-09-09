@@ -1,14 +1,11 @@
-1. **Project Name**
+ **Project Name**
 
     Local Roaster
 
-2. **Student Name**
-
-    Mark Goldstein
 
     **Local Roasters** is a location based, personalized coffee experience.   Users can brows recommended  local shops that match their preferences, and another section will preview coffee for sale locally or online (ie on amazon)  that they may like and meet their price preferences. Users can rate and update shop information.
 
-3. **Executive summary (1-2 paragraphs)**
+ **Executive summary (1-2 paragraphs)**
 
     Local Roasters is a location based, personalized coffee experience.     begin by selecting their coffee preferences(taste, blend, origin, fair trade), price range(such as avg per cup) and more gathering an overall measurement of how they like their coffee. Once the user goes through their preferences and signs up they get greeted by the dashboard. The dashboard display's few local shops that match their preferences, and another section will preview coffee for sale locally or online (ie on amazon)  that they may like and meet their price preferences.
 
