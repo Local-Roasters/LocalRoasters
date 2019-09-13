@@ -1,16 +1,15 @@
 # *Project Name*
-```
- Local Roaster
-```
+ Local Roasters
+ 
 # Team Members 
 1. Steven Li
-  - listeven073@gmail.com
-  - ilumii
-  - Hunter College
+   - listeven073@gmail.com
+   - ilumii
+   - Hunter College
 2. Wei (Jackie) Lin
-  - wlin041@gmail.com
-  - Jackster001
-  - Baruch College
+   - wlin041@gmail.com
+   - Jackster001
+   - Baruch College
 3. Mark Goldstein
    - MarkGoldstein12@gmail.com
    - Maker-Mark
