@@ -42,8 +42,6 @@ Local Roasters is a location based, personalized coffee experience.  Users can s
  **User-types**:
  - The main user type is the coffee consumer, however other users can be considered after an MVP for users exists
  - Coffee Drinkers , Brooklyn Residents, Students, Tech Workers
- **User Stories**:
-    Refer back to user's actions above.
-     
+
   
     
