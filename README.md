@@ -38,5 +38,12 @@ Local Roasters is a location based, personalized coffee experience.  Users can s
    - Is there a *need* or *want* in the market that it fulfills (*does not have to be a for-profit, or paid need*)?
 
    There is a want in the market for a way to customize your coffee-going experience.
-
+   
+ **User-types**:
+    - The main user type is the coffee consumer, however other users can be considered after an MVP for users exists
+    **Coffee Drinkers , Brooklyn Residents, Students, Tech Workers **
+ **User Stories**:
+    Refer back to user's actions above.
+     
+  
     
