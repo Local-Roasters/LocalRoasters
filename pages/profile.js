@@ -1,5 +1,6 @@
-import React from 'react';import { Container, Header, Content, Footer, FooterTab, Button, Icon, Form, Item, Picker, Card, CardItem, Body, Left } from 'native-base';
+import React from 'react';import { Container, Header, Content, Footer, FooterTab, Button, Form, Item, Picker, Card, CardItem, Body, Left } from 'native-base';
 import { StyleSheet, Text, View,Image } from 'react-native';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { Actions } from 'react-native-router-flux';
 
 export default class Profile extends React.Component {
@@ -90,21 +91,19 @@ export default class Profile extends React.Component {
     goToHome(){
         Actions.home()
      }
+     gotToCoffeeMap(){
+        Actions.coffeeMap()
+     }
     render() {
        return (
         <Container>
-            <View >
-                    <Item style={{borderBottomWidth: 0}}>
-                        <Image
-                            source={require("../images/profile.png")}
-                            style={styles.profileImage}
-                        />
+            <Content style={styles.content}>
+            <Item style={{borderBottomWidth: 0, width:'100%'}}>
+                    <Image source={require("../images/profile.png")} style={styles.profileImage}/>
                     </Item>
                     <Item style={{borderBottomWidth: 0}}>
                         <Text style={styles.idText}>ID: 0571095730</Text>
                     </Item>
-            </View>
-            <Content style={styles.content}>
               <Text style={styles.title}>Your Roast</Text>
                 <Card >
                     <CardItem style={styles.dollar, {
@@ -154,10 +153,13 @@ export default class Profile extends React.Component {
             <Footer>
                 <FooterTab>
                 <Button style={styles.navButton} onPress={()=>this.goToHome()}>
-                <Text style={styles.navText}>Home</Text>
+                    <Icon size={24} color="white" name="home"></Icon>
+                </Button>
+                <Button style={styles.navButton} onPress={()=>this.gotToCoffeeMap()}>
+                    <Icon size={24} color="white" name="map-marker-radius"></Icon>
                 </Button>
                 <Button style={styles.navButton}>
-                <Text style={styles.navText}>Profile</Text>
+                    <Icon size={24} color="white" name="account-box"></Icon>
                 </Button>
                 </FooterTab>
             </Footer>
@@ -171,19 +173,25 @@ const styles = StyleSheet.create({
        marginRight:"auto",
        marginLeft: "auto"
     },
+    content:{
+        paddingVertical: 10,
+        width: '80%',
+        marginRight:"auto",
+        marginLeft: "auto"
+    },
     navButton:{
        backgroundColor: "#9A764E",
+       borderRadius: 0
     },
     navText:{
        color:"white"
     },
     profileImage:{
-        width: 150,
-        height: 150, 
-        borderRadius: 10,
+        width: 100,
+        height: 100,
         marginLeft: "auto",
         marginRight: "auto",
-        marginTop: '20%'
+        marginTop: '10%'
     },
     idText:{
         marginLeft: "auto",
