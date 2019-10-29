@@ -12,10 +12,11 @@ export default class CoffeeMap extends React.Component {
 		this.state = {
 			marginBottom: 1,
 			initialRegion: [],
+			pins: []
 		}
 	}
 
-    async componentDidMount() {
+	async componentDidMount() {
 		this._isMounted = true;
 		try {
 			await navigator.geolocation.getCurrentPosition(
@@ -29,11 +30,40 @@ export default class CoffeeMap extends React.Component {
 						latitudeDelta: 0.01,
 						longitudeDelta: 0.01
 					}
-					this.mapView.animateToRegion(region,1000);
-					if(this._isMounted){
+					this.mapView.animateToRegion(region, 1000);
+					if (this._isMounted) {
 						this.setState({
-							initialRegion:region
+							initialRegion: region
 						})
+					}
+					try {
+						let { data } = await axios.get(`https://api.yelp.com/v3/businesses/search?term=coffee&latitude=${location[`coords`][`latitude`]}&longitude=${location[`coords`][`longitude`]}&radius=500&limit=50`, {
+							headers:
+							{
+								Authorization: `Bearer BveseQkXptmTE1Vl-l4xSvzVq_rl-18nCPM4o65H7KrbQe2ZlFnsUr8Y19P2tW6hdflNwdbuEonUT2Wm1fLRW83SH_c3a4lyR3O5_I4fMjJiJdTkZL34h51KncycXXYx`
+							}
+						});
+						let pins = [];
+						data["businesses"].forEach((item, i) => {
+							pins.push(
+								<MapView.Marker
+									key={i++}
+									coordinate={item.coordinates}
+								>
+									<MapView.Callout>
+										<Text>{item.name}</Text>
+									</MapView.Callout>
+								</MapView.Marker>
+							)
+						});
+						if (this._isMounted) {
+							this.setState({
+								pins: pins
+							})
+						}
+					}
+					catch (err) {
+						console.log(err)
 					}
 				},
 				error => Alert.alert(error.message),
@@ -42,12 +72,12 @@ export default class CoffeeMap extends React.Component {
 		} catch (err) {
 			console.log(err)
 		}
-    }
-    
+	}
+
 	componentWillUnmount() {
 		this._isMounted = false;
-    }
-    
+	}
+
 	onMapReady = () => this.setState({ marginBottom: 0 })
 	goToProfile(){
 		Actions.profile()
@@ -58,8 +88,8 @@ export default class CoffeeMap extends React.Component {
 	render() {
 		return (
 			<View style={styles.container}>
-                <MapView 
-                    provider={PROVIDER_GOOGLE}
+				<MapView
+					provider={PROVIDER_GOOGLE}
 					onMapReady={this.onMapReady}
 					style={[styles.map, { flex: 1, marginBottom: this.state.marginBottom }]}
 					initialRegion={{
@@ -73,7 +103,7 @@ export default class CoffeeMap extends React.Component {
 					showsCompass={false}
 					loadingEnabled={true}
 					ref={ref => { this.mapView = ref }}>
-					{this.state.distance}
+					{this.state.pins}
 				</MapView>
 				<Footer>
                   <FooterTab>

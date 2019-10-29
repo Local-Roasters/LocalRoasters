@@ -8,7 +8,7 @@ export default class Home extends React.Component {
    goToProfile(){
       Actions.profile()
    }
-   gotToCoffeeMap(){
+   goToCoffeeMap(){
       Actions.coffeeMap()
    }
     render() {
@@ -16,6 +16,9 @@ export default class Home extends React.Component {
             <Container>
                   <View >
                      <Text style={styles.midText}>This is the Home Page!</Text>
+                     <Button onPress={this.goToCoffeeMap}>
+                        <Text>Go to map</Text>
+                     </Button>
                   </View>
                <Content />
                <Footer>
