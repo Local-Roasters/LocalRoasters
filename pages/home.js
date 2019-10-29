@@ -1,11 +1,15 @@
 import React from 'react';
-import { Container, Header, Content, Footer, FooterTab, Button, Icon, Form, Item, Picker, Card, CardItem, Body, Left } from 'native-base';
+import { Container, Header, Content, Footer, FooterTab, Button, Form, Item, Picker, Card, CardItem, Body, Left } from 'native-base';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { StyleSheet, Text, View } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 
 export default class Home extends React.Component {
    goToProfile(){
       Actions.profile()
+   }
+   gotToCoffeeMap(){
+      Actions.coffeeMap()
    }
     render() {
        return (
@@ -17,10 +21,13 @@ export default class Home extends React.Component {
                <Footer>
                   <FooterTab>
                      <Button style={styles.navButton}>
-                     <Text style={styles.navText}>Home</Text>
+                        <Icon size={24} color="white" name="home"></Icon>
+                     </Button>
+                     <Button style={styles.navButton} onPress={()=>this.gotToCoffeeMap()}>
+                        <Icon size={24} color="white" name="map-marker-radius"></Icon>
                      </Button>
                      <Button style={styles.navButton} onPress={()=>this.goToProfile()}>
-                     <Text style={styles.navText}>Profile</Text>
+                     <Icon size={24} color="white" name="account-box"></Icon>
                      </Button>
                   </FooterTab>
                </Footer>
@@ -36,6 +43,7 @@ export default class Home extends React.Component {
    },
    navButton:{
       backgroundColor: "#9A764E",
+      borderRadius: 0
    },
    navText:{
       color:"white"

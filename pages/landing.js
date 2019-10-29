@@ -1,6 +1,5 @@
 import React from 'react'
 import { StyleSheet,View, ScrollView, Text, TouchableOpacity, Image} from 'react-native';
-// import { FormLabel, FormInput, FormValidationMessage } from 'react-native-elements'
 import { Container, Header, Content, Footer, FooterTab, Button, Icon, Form, Item, Picker, Card, CardItem, Body, Left } from 'native-base';
 import { Actions } from 'react-native-router-flux';
 import { AuthSession } from 'expo';
@@ -29,6 +28,7 @@ class Landing extends React.Component {
     goToAbout = () => {
         Actions.home()
     }
+
     onChangeCoffee1(){
         if(this.state.seg1==2){
             this.setState({ seg1: 1,seg2: 1, seg3:1})
@@ -83,7 +83,12 @@ class Landing extends React.Component {
         }
         this.setState({Price: "$$$"})
     }
-    
+       gotToCoffeeMap(){
+      Actions.coffeeMap()
+    }
+    goToHome(){
+        Actions.home()
+    }
     onSubmit(){
         let preferences= {
             coffeeType:this.state.coffee,
@@ -95,11 +100,13 @@ class Landing extends React.Component {
     render() {
         return (
         <Container style={styles.container}>
-                <View >
+                {/* <View >
                     <Text style={styles.title}>Customize Your Roast</Text>
                     <Image source={require("../images/Local_Roast_Logo.png")} style={styles.logo}/>  
-                </View>
+                </View> */}
             <Content style={styles.content}>
+                <Text style={styles.title}>Customize Your Roast</Text>
+                <Image source={require("../images/Local_Roast_Logo.png")} style={styles.logo}/> 
                 <Card>
                     <CardItem style={styles.dollar, {
 									backgroundColor: this.state.seg1 === 1 ? "white" :this.state.seg1 === 2 ? "#D0B99B" : undefined,
@@ -172,7 +179,7 @@ const styles = StyleSheet.create({
     title:{
         fontSize: 25,
         padding: 25,
-        marginTop:"30%",
+        marginTop:"10%",
         color:'#B98B50',
         marginRight:'auto',
         marginLeft:'auto'

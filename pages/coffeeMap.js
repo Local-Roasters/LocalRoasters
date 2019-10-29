@@ -1,8 +1,10 @@
 import React from 'react'
 import { TouchableOpacity, Text, Dimensions, StyleSheet, View } from 'react-native'
+import { Container, Header, Content, Footer, FooterTab, Button, Form, Item, Picker, Card, CardItem, Body, Left } from 'native-base';
 import MapView,{ PROVIDER_GOOGLE } from 'react-native-maps';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import axios from 'axios';
-
+import { Actions } from 'react-native-router-flux';
 export default class CoffeeMap extends React.Component {
 	_isMounted = false;
 	constructor(props) {
@@ -47,7 +49,12 @@ export default class CoffeeMap extends React.Component {
     }
     
 	onMapReady = () => this.setState({ marginBottom: 0 })
-
+	goToProfile(){
+		Actions.profile()
+	}
+	goToHome(){
+		Actions.home()
+	 }
 	render() {
 		return (
 			<View style={styles.container}>
@@ -68,6 +75,19 @@ export default class CoffeeMap extends React.Component {
 					ref={ref => { this.mapView = ref }}>
 					{this.state.distance}
 				</MapView>
+				<Footer>
+                  <FooterTab>
+                     <Button style={styles.navButton} onPress={()=>this.goToHome()}>
+                        <Icon size={24} color="white" name="home"></Icon>
+                     </Button>
+                     <Button style={styles.navButton} >
+                        <Icon size={24} color="white" name="map-marker-radius"></Icon>
+                     </Button>
+                     <Button style={styles.navButton} onPress={()=>this.goToProfile()}>
+                     <Icon size={24} color="white" name="account-box"></Icon>
+                     </Button>
+                  </FooterTab>
+               </Footer>
 			</View>
 		);
 	}
@@ -82,6 +102,10 @@ const styles = StyleSheet.create({
 		right: 0,
 		justifyContent: 'flex-end',
 		alignItems: 'center'
+	},
+	navButton:{
+		backgroundColor: "#9A764E",
+		borderRadius: 0
 	},
 	map: {
 		position: 'absolute',
