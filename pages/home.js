@@ -19,10 +19,56 @@ import {
 } from "native-base";
 
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
-import { StyleSheet, View, ScrollView, Image } from "react-native";
+import {
+  StyleSheet,
+  View,
+  ScrollView,
+  SafeAreaView,
+  Image,
+  FlatList
+} from "react-native";
 import { Actions } from "react-native-router-flux";
-
+const DATA = [
+  {
+    id: "bd7acbea-c1b1-46c2-aed5-3ad53abb28ba",
+    title: "First Item"
+  },
+  {
+    id: "3ac68afc-c605-48d3-a4f8-fbd91aa97f63",
+    title: "Second Item"
+  },
+  {
+    id: "58694a0f-3da1-471f-bd96-145571e29d72",
+    title: "Third Item"
+  }
+];
 export default class Home extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      cards: [
+        {
+          id: "1",
+          title: "Cafe Bene",
+          distance: "0.1",
+          img: "https://i.imgur.com/CXgFFLK.png"
+        },
+        {
+          id: "2",
+          title: "Starby's",
+          distance: "0.1",
+          img: "https://i.imgur.com/CXgFFLK.png"
+        },
+        {
+          id: "58694a0f-3da1-471f-bd96-145571e29d72",
+          title: "Local Deli",
+          distance: "0.3",
+          img: "https://i.imgur.com/fc08sWU.png"
+        }
+      ]
+    };
+  }
+
   goToProfile() {
     Actions.profile();
   }
@@ -30,66 +76,55 @@ export default class Home extends React.Component {
     Actions.coffeeMap();
   }
   render() {
+    function Item({ title, distance, img }) {
+      return (
+        <Card style={{ flex: 0 }}>
+          <CardItem>
+            <Left>
+              <Thumbnail source={{ uri: img }} />
+              <Body>
+                <Text>{title}</Text>
+                <Text note>{distance} miles away</Text>
+              </Body>
+            </Left>
+          </CardItem>
+          <CardItem>
+            <Body>
+              <Image
+                source={{ uri: "" }}
+                style={{ height: 200, width: 200, flex: 1 }}
+              />
+              <Text>title</Text>
+            </Body>
+          </CardItem>
+          <CardItem>
+            <Left>
+              <Button transparent textStyle={{ color: "#87838B" }}>
+                <Icon name="coffee" />
+                <Text>1,926 stars</Text>
+              </Button>
+            </Left>
+          </CardItem>
+        </Card>
+      );
+    }
+
     return (
       <Container>
-        <ScrollView>
-          <Container>
-            <Header />
-            <Content>
-              <Card>
-                <CardItem>
-                  <Left>
-                    <Thumbnail
-                      source={{
-                        uri:
-                          "https://assets.bonappetit.com/photos/5c366551f212512d0e6cefd0/16:9/w_2560%2Cc_limit/Basically-Coffee-0219-03.jpg"
-                      }}
-                    />
-                    <Body>
-                      <Text>First Coffee Shop</Text>
-                      <Text note>Much Wow</Text>
-                    </Body>
-                  </Left>
-                </CardItem>
-                <CardItem cardBody>
-                  <Image
-                    source={{
-                      uri:
-                        "https://assets.bonappetit.com/photos/5c3665nati512d0e6cefd0/16:9/w_2560%2Cc_limit/Basically-Coffee-0219-03.jpg"
-                    }}
-                    style={{ height: 200, width: null, flex: 1 }}
-                  />
-                </CardItem>
-                <CardItem>
-                  <Left>
-                    <Button transparent>
-                      <Icon active name="coffee" />
-                      <Text>4 Beans</Text>
-                    </Button>
-                  </Left>
-                  <Body>
-                    <Button transparent>
-                      <Icon active name="fire" />
-                      <Text>Roast</Text>
-                    </Button>
-                  </Body>
-                  <Right>
-                    <Button transparent>
-                      <Icon active name="currency-usd" />
-                      <Icon active name="currency-usd" />
-                      <Text>Price</Text>
-                    </Button>
-                  </Right>
-                </CardItem>
-              </Card>
-            </Content>
-          </Container>
-          <Button style={styles.mapButton} onPress={this.goToCoffeeMap}>
-            <Text style={styles.mapButton}>View map</Text>
-          </Button>
-        </ScrollView>
-
-        <Content />
+        <SafeAreaView style={styles.container}>
+          <FlatList
+            data={this.state.cards}
+            renderItem={({ item }) => (
+              <Item
+                title={item.title}
+                distance={item.distance}
+                img={item.img}
+                rating={item.rating}
+              />
+            )}
+            keyExtractor={item => item.id}
+          ></FlatList>
+        </SafeAreaView>
         <Footer>
           <FooterTab>
             <Button style={styles.navButton}>
@@ -97,7 +132,7 @@ export default class Home extends React.Component {
             </Button>
             <Button
               style={styles.navButton}
-              onPress={() => this.gotToCoffeeMap()}
+              onPress={() => this.goToCoffeeMap()}
             >
               <Icon size={24} color="white" name="map-marker-radius"></Icon>
             </Button>
@@ -123,6 +158,9 @@ const styles = StyleSheet.create({
     marginRight: 40,
     marginLeft: 40,
     marginBottom: 20
+  },
+  container: {
+    flex: 1
   },
   navButton: {
     backgroundColor: "#9A764E",
