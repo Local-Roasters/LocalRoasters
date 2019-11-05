@@ -5,6 +5,7 @@ import MapView,{ PROVIDER_GOOGLE } from 'react-native-maps';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import axios from 'axios';
 import { Actions } from 'react-native-router-flux';
+
 export default class CoffeeMap extends React.Component {
 	_isMounted = false;
 	constructor(props) {

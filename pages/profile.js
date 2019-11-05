@@ -108,7 +108,7 @@ export default class Profile extends React.Component {
 			"price": this.state.price
 		}
 		console.log(data)
-		axios.post(`https://localroasters-api.herokuapp.com/users/`,data);
+		axios.put(`https://localroasters-api.herokuapp.com/users/`,data);
 	}
 	goToHome() {
 		Actions.home()
