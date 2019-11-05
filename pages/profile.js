@@ -46,6 +46,9 @@ export default class Profile extends React.Component {
 	goToAbout = () => {
 		Actions.home()
 	}
+	goToCoffeeMap = () =>{
+		Actions.coffeeMap();
+	}
 	onChangeCoffee1() {
 		if (this.state.seg1 == 2) {
 			this.setState({ seg1: 1, seg2: 1, seg3: 1 })
@@ -179,7 +182,7 @@ export default class Profile extends React.Component {
                 <Button style={styles.navButton} onPress={()=>this.goToHome()}>
                     <Icon size={24} color="white" name="home"></Icon>
                 </Button>
-                <Button style={styles.navButton} onPress={()=>this.gotToCoffeeMap()}>
+                <Button style={styles.navButton} onPress={()=>this.goToCoffeeMap()}>
                     <Icon size={24} color="white" name="map-marker-radius"></Icon>
                 </Button>
                 <Button style={styles.navButton}>
