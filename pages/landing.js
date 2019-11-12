@@ -167,7 +167,6 @@ class Landing extends React.Component {
 }
 const styles = StyleSheet.create({
 	container: {
-		// backgroundColor: "#ECCFAA",
 		width: "100%"
 	},
 	content: {
