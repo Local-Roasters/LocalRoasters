@@ -5,6 +5,7 @@ import MapView,{ PROVIDER_GOOGLE } from 'react-native-maps';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import axios from 'axios';
 import { Actions } from 'react-native-router-flux';
+
 export default class CoffeeMap extends React.Component {
 	_isMounted = false;
 	constructor(props) {
@@ -37,12 +38,7 @@ export default class CoffeeMap extends React.Component {
 						})
 					}
 					try {
-						let { data } = await axios.get(`https://api.yelp.com/v3/businesses/search?term=coffee&latitude=${location[`coords`][`latitude`]}&longitude=${location[`coords`][`longitude`]}&radius=500&limit=50`, {
-							headers:
-							{
-								Authorization: `Bearer BveseQkXptmTE1Vl-l4xSvzVq_rl-18nCPM4o65H7KrbQe2ZlFnsUr8Y19P2tW6hdflNwdbuEonUT2Wm1fLRW83SH_c3a4lyR3O5_I4fMjJiJdTkZL34h51KncycXXYx`
-							}
-						});
+						let {data} = await axios.get(`https://localroasters-api.herokuapp.com/roasters/yelp/?latitude=${location[`coords`][`latitude`]}&longitude=${location[`coords`][`longitude`]}`);
 						let pins = [];
 						data["businesses"].forEach((item, i) => {
 							pins.push(
