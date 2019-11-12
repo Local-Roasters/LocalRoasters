@@ -106,7 +106,7 @@ class Landing extends React.Component {
                 </View> */}
             <Content style={styles.content}>
                 <Text style={styles.title}>Customize Your Roast</Text>
-                <Image source={require("../images/Local_Roast_Logo.png")} style={styles.logo}/> 
+                <Image source={require("../images/Local_Roast_Logo_transparent.png")} style={styles.logo}/> 
                 <Card>
                     <CardItem style={styles.dollar, {
 									backgroundColor: this.state.seg1 === 1 ? "white" :this.state.seg1 === 2 ? "#D0B99B" : undefined,

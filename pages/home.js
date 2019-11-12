@@ -97,7 +97,7 @@ export default class Home extends React.Component {
             </Button>
             <Button
               style={styles.navButton}
-              onPress={() => this.gotToCoffeeMap()}
+              onPress={() => this.goToCoffeeMap()}
             >
               <Icon size={24} color="white" name="map-marker-radius"></Icon>
             </Button>
