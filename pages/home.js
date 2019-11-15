@@ -56,6 +56,7 @@ export default class Home extends React.Component {
         }
       ]
     };
+    this.generateStars=this.generateStars.bind(this)
   }
   goToProfile() {
     Actions.profile();
@@ -66,27 +67,35 @@ export default class Home extends React.Component {
   goToCoffeeShop() {
     Actions.coffeeShop();
   }
-  item =(title, distance, img, coffeeBeans, yelpRating)=>{
-
+  generateBean(beans){
+    let beanIcons=[]
+    for(let i=0; i<coffeeBeans; i++){
+      beanIcons.push((<Image source={require("./../images/CoffeeBean.png")} style={{ height: 30, width: 30, flexDirection: 'row'}}/>))
+    }
+    return beanIcons
   }
+  generateStars = (rating)=>{
+    let stars=[]
+    for(let i=0; i<rating; i++){
+      stars.push((<Image source={require("./../images/YelpStar.png")} style={{ height: 30, width: 30, flexDirection: 'row', marginLeft:5}}/>))
+    }
+    return stars
+  }
+
   render() {
-    function Item({ title, distance, img, coffeeBeans, yelpRating }) {
-      // let beanIcons=[]
-      // for(let i=0; i<coffeeBeans; i++){
-      //   beanIcons.push((<Image source={require("./../images/CoffeeBean.png")} style={{ height: 30, width: 30, flexDirection: 'row'}}/>))
-      // }
+    function Item({title, distance, img, coffeeBeans, yelpRating}){
       let stars=[]
       for(let i=0; i<yelpRating; i++){
         stars.push((<Image source={require("./../images/YelpStar.png")} style={{ height: 30, width: 30, flexDirection: 'row', marginLeft:5}}/>))
       }
       return (
-        <Card style={{ flex: 0 }}>
+        <Card style={styles.cardItems}>
           <CardItem>
             <Left>
               <Thumbnail source={{ uri: img }} />
               <Body>
                 <Text onPress={()=> Actions.coffeeShop()}>{title}</Text>
-                <Text note>{distance} miles away</Text>
+                <Text>{distance} miles away</Text>
               </Body>
             </Left>
           </CardItem>
@@ -94,7 +103,7 @@ export default class Home extends React.Component {
             <Body>
               <Image
                 source={{ uri: "" }}
-                style={{ height: 200, width: 200, flex: 1 }}
+                style={{ height: '30%', width: "90%", flex: 1 }}
                 onPress={() => this.goToCoffeeShop()}
               />
               <Text>title</Text>
@@ -103,7 +112,6 @@ export default class Home extends React.Component {
           <CardItem>
             <Left>
               <Button transparent textStyle={{ color: "#87838B" }}>
-                {/* {beanIcons} */}
                 {stars}
               </Button>
             </Left>
@@ -111,7 +119,6 @@ export default class Home extends React.Component {
         </Card>
       );
     }
-
     return (
       <Container>
         <SafeAreaView style={styles.container}>
@@ -123,7 +130,7 @@ export default class Home extends React.Component {
                 distance={item.distance}
                 img={item.img}
                 rating={item.rating}
-                coffeeBeans={item.coffeeBeans}
+                // coffeeBeans={item.coffeeBeans}
                 yelpRating={item.yelpRating}
               />
             )}
@@ -173,5 +180,8 @@ const styles = StyleSheet.create({
   },
   navText: {
     color: "white"
+  },
+  cardItems:{
+
   }
 });
