@@ -1,23 +1,6 @@
 import React, { Component } from "react";
-import {
-  Container,
-  Header,
-  CardItem,
-  Thumbnail,
-  Content,
-  Footer,
-  Text,
-  FooterTab,
-  Button,
-  Form,
-  Item,
-  Picker,
-  Card,
-  Body,
-  Right,
-  Left
+import {Container,Header,CardItem,Thumbnail,Content,Footer,Text,FooterTab,Button,Form,Item,Picker,Card,Body,Right,Left
 } from "native-base";
-
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import {
   StyleSheet,
@@ -51,39 +34,58 @@ export default class Home extends React.Component {
           id: "1",
           title: "Cafe Bene",
           distance: "0.1",
-          img: "https://i.imgur.com/CXgFFLK.png"
+          img: "https://i.imgur.com/CXgFFLK.png",
+          coffeeBeans: 3,
+          yelpRating:4
         },
         {
           id: "2",
           title: "Starby's",
           distance: "0.1",
-          img: "https://i.imgur.com/CXgFFLK.png"
+          img: "https://i.imgur.com/CXgFFLK.png",
+          coffeeBeans: 2,
+          yelpRating:5
         },
         {
           id: "58694a0f-3da1-471f-bd96-145571e29d72",
           title: "Local Deli",
           distance: "0.3",
-          img: "https://i.imgur.com/fc08sWU.png"
+          img: "https://i.imgur.com/fc08sWU.png",
+          coffeeBeans: 3,
+          yelpRating:4
         }
       ]
     };
   }
-
   goToProfile() {
     Actions.profile();
   }
   goToCoffeeMap() {
     Actions.coffeeMap();
   }
+  goToCoffeeShop() {
+    Actions.coffeeShop();
+  }
+  item =(title, distance, img, coffeeBeans, yelpRating)=>{
+
+  }
   render() {
-    function Item({ title, distance, img }) {
+    function Item({ title, distance, img, coffeeBeans, yelpRating }) {
+      // let beanIcons=[]
+      // for(let i=0; i<coffeeBeans; i++){
+      //   beanIcons.push((<Image source={require("./../images/CoffeeBean.png")} style={{ height: 30, width: 30, flexDirection: 'row'}}/>))
+      // }
+      let stars=[]
+      for(let i=0; i<yelpRating; i++){
+        stars.push((<Image source={require("./../images/YelpStar.png")} style={{ height: 30, width: 30, flexDirection: 'row', marginLeft:5}}/>))
+      }
       return (
         <Card style={{ flex: 0 }}>
           <CardItem>
             <Left>
               <Thumbnail source={{ uri: img }} />
               <Body>
-                <Text>{title}</Text>
+                <Text onPress={()=> Actions.coffeeShop()}>{title}</Text>
                 <Text note>{distance} miles away</Text>
               </Body>
             </Left>
@@ -93,6 +95,7 @@ export default class Home extends React.Component {
               <Image
                 source={{ uri: "" }}
                 style={{ height: 200, width: 200, flex: 1 }}
+                onPress={() => this.goToCoffeeShop()}
               />
               <Text>title</Text>
             </Body>
@@ -100,8 +103,8 @@ export default class Home extends React.Component {
           <CardItem>
             <Left>
               <Button transparent textStyle={{ color: "#87838B" }}>
-                <Icon name="coffee" />
-                <Text>1,926 stars</Text>
+                {/* {beanIcons} */}
+                {stars}
               </Button>
             </Left>
           </CardItem>
@@ -120,6 +123,8 @@ export default class Home extends React.Component {
                 distance={item.distance}
                 img={item.img}
                 rating={item.rating}
+                coffeeBeans={item.coffeeBeans}
+                yelpRating={item.yelpRating}
               />
             )}
             keyExtractor={item => item.id}

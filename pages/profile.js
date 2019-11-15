@@ -119,8 +119,8 @@ export default class Profile extends React.Component {
 	render() {
 		return (
 			<Container>
-				<View >
-					<Item style={{ borderBottomWidth: 0 }}>
+				<Content style={styles.content}>
+				<Item style={{ borderBottomWidth: 0 }}>
 						<Image
 							source={require("../images/profile.png")}
 							style={styles.profileImage}
@@ -129,8 +129,6 @@ export default class Profile extends React.Component {
 					<Item style={{ borderBottomWidth: 0 }}>
 						<Text style={styles.idText}>ID: 0571095730</Text>
 					</Item>
-				</View>
-				<Content style={styles.content}>
 					<Text style={styles.title}>Your Roast</Text>
 					<Card >
 						<CardItem style={styles.dollar, {
@@ -177,20 +175,20 @@ export default class Profile extends React.Component {
 						<Text style={styles.buttonText}>Update</Text>
 					</Button>
 				</Content>
-				<Footer>
-                <FooterTab>
-                <Button style={styles.navButton} onPress={()=>this.goToHome()}>
-                    <Icon size={24} color="white" name="home"></Icon>
-                </Button>
-                <Button style={styles.navButton} onPress={()=>this.goToCoffeeMap()}>
-                    <Icon size={24} color="white" name="map-marker-radius"></Icon>
-                </Button>
-                <Button style={styles.navButton}>
-                    <Icon size={24} color="white" name="account-box"></Icon>
-                </Button>
-                </FooterTab>
+			<Footer>
+				<FooterTab>
+					<Button style={styles.navButton} onPress={()=>this.goToHome()}>
+						<Icon size={24} color="white" name="home"></Icon>
+					</Button>
+					<Button style={styles.navButton} onPress={()=>this.goToCoffeeMap()}>
+						<Icon size={24} color="white" name="map-marker-radius"></Icon>
+					</Button>
+					<Button style={styles.navButton}>
+						<Icon size={24} color="white" name="account-box"></Icon>
+					</Button>
+				</FooterTab>
             </Footer>
-			</Container>
+		</Container>
 		);
 	}
 }
@@ -202,13 +200,14 @@ const styles = StyleSheet.create({
 	},
 	navButton: {
 		backgroundColor: "#9A764E",
+		borderRadius:0
 	},
 	navText: {
 		color: "white"
 	},
 	profileImage: {
-		width: 150,
-		height: 150,
+		width: 120,
+		height: 120,
 		borderRadius: 10,
 		marginLeft: "auto",
 		marginRight: "auto",

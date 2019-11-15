@@ -80,7 +80,7 @@ export default class CoffeeMap extends React.Component {
 	}
 	goToHome(){
 		Actions.home()
-	 }
+	}
 	render() {
 		return (
 			<View style={styles.container}>
