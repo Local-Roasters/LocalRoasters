@@ -16,8 +16,8 @@ export default class CoffeeShop extends React.Component {
         <Content style={styles.content}>
             <Item style={{ borderBottomWidth: 0 }}>
                     <Image
-                        source={require("../images/profile.png")}
-                        style={styles.profileImage}
+                        source={require("../images/coffeeShopImage.jpg")}
+                        style={styles.coffeeShopImage}
                     />
                 </Item>
                 <Item style={{ borderBottomWidth: 0 }}>
@@ -40,13 +40,12 @@ const styles = StyleSheet.create({
 	navText: {
 		color: "white"
 	},
-	profileImage: {
-		width: 120,
-		height: 120,
-		borderRadius: 10,
+	coffeeShopImage: {
+		width: '100%',
+		height:200,
 		marginLeft: "auto",
 		marginRight: "auto",
-		marginTop: '20%'
+		borderRadius: 30
 	},
 	idText: {
 		marginLeft: "auto",
