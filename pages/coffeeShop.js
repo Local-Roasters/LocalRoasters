@@ -1,11 +1,10 @@
 import React from 'react';import { Container, Header, Content, Footer, FooterTab, Button, Form, Item, Picker, Card, CardItem, Body, Left } from 'native-base';
 import { StyleSheet, Text, View,Image } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import { Actions } from 'react-native-router-flux';
-import Constants from 'expo-constants';
+import { connect } from "react-redux";
+import { getCoffeeShopThunk } from  '../store/utilities/coffeeShop';
 
-
-export default class CoffeeShop extends React.Component {
+class CoffeeShop extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -64,6 +63,21 @@ export default class CoffeeShop extends React.Component {
         )
     }
 }
+
+const mapState = (state) => {
+	return {
+		coffeeShop: state.coffeeShop
+	}
+}
+
+const mapDispatch = (dispatch) => {
+	return {
+		getCoffeeShop: () => dispatch(getCoffeeShopThunk())
+	}
+}
+
+export default connect(mapState, mapDispatch)(CoffeeShop);
+
 const styles = StyleSheet.create({
 	background:{
 		height: 200,
