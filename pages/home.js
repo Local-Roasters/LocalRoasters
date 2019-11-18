@@ -92,7 +92,7 @@ export default class Home extends React.Component {
         <Card style={styles.cardItems}>
           <CardItem>
             <Left>
-              <Thumbnail source={{ uri: img }} />
+              <Thumbnail source={{ uri: img }}/>
               <Body>
                 <Text onPress={()=> Actions.coffeeShop()}>{title}</Text>
                 <Text>{distance} miles away</Text>
