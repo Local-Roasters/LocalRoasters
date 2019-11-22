@@ -1,4 +1,5 @@
-import React from 'react';import { Container, Header, Content, Footer, FooterTab, Button, Form, Item, Picker, Card, CardItem, Body, Left } from 'native-base';
+import React from 'react';
+import { Content, Item} from 'native-base';
 import { StyleSheet, Text, View,Image } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { connect } from "react-redux";
