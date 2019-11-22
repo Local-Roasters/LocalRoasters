@@ -115,6 +115,7 @@ class Home extends React.Component {
         </Card>
       );
     }
+    let i = 0;
     return (
       <Container>
         <SafeAreaView style={styles.container}>
@@ -122,6 +123,7 @@ class Home extends React.Component {
             data={this.state.cards}
             renderItem={({ item }) => (
               <Item
+                key={i++}
                 title={item.title}
                 distance={item.distance}
                 img={item.img}

@@ -4,9 +4,11 @@ import { Container, Header, Content, Footer, FooterTab, Button, Form, Item, Pick
 import MapView,{ PROVIDER_GOOGLE } from 'react-native-maps';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import axios from 'axios';
-import { Actions } from 'react-native-router-flux';
+import { Actions } from "react-native-router-flux";
+import { connect } from "react-redux";
+import { storeCoffeeShopThunk } from  '../store/utilities/coffeeShop';
 
-export default class CoffeeMap extends React.Component {
+class CoffeeMap extends React.Component {
 	_isMounted = false;
 	constructor(props) {
 		super(props);
@@ -38,16 +40,16 @@ export default class CoffeeMap extends React.Component {
 						})
 					}
 					try {
-						let {data} = await axios.get(`https://localroasters-api.herokuapp.com/roasters/yelp/?latitude=${location[`coords`][`latitude`]}&longitude=${location[`coords`][`longitude`]}`);
+						let {data} = await axios.get(`https://localroasters-api.herokuapp.com/roasters/?latitude=${location[`coords`][`latitude`]}&longitude=${location[`coords`][`longitude`]}`);
 						let pins = [];
-						data["businesses"].forEach((item, i) => {
+						data.forEach((item, i) => {
 							pins.push(
 								<MapView.Marker
 									key={i++}
-									coordinate={item.coordinates}
+									coordinate={{latitude: location[`coords`][`latitude`], longitude: location[`coords`][`longitude`]}}
 								>
-									<MapView.Callout>
-										<Text>{item.name}</Text>
+									<MapView.Callout onPress={()=>this.handlePress(item)}>
+										<Text>{item.name}{"\n"}{item.location.streetName}</Text>
 									</MapView.Callout>
 								</MapView.Marker>
 							)
@@ -75,6 +77,12 @@ export default class CoffeeMap extends React.Component {
 	}
 
 	onMapReady = () => this.setState({ marginBottom: 0 })
+
+	handlePress = (coffeeShop) =>{
+		this.props.storeCoffeeShop(coffeeShop)
+		Actions.coffeeShop();
+	}
+
 	goToProfile(){
 		Actions.profile()
 	}
@@ -118,6 +126,20 @@ export default class CoffeeMap extends React.Component {
 		);
 	}
 }
+
+const mapState = (state) => {
+	return {
+		coffeeShop: state.coffeeShop
+	}
+}
+
+const mapDispatch = (dispatch) => {
+	return {
+		storeCoffeeShop: (coffeeShop) => dispatch(storeCoffeeShopThunk(coffeeShop))
+	}
+}
+
+export default connect(mapState, mapDispatch)(CoffeeMap);
 
 const styles = StyleSheet.create({
 	container: {
