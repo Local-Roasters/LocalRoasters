@@ -22,7 +22,7 @@ class Landing extends React.Component {
 		};
 	}
 
-	componentDidMount = async() =>{
+	async componentDidMount() {
 		let deviceId = Constants.installationId;
 		console.log(deviceId)
 		try{

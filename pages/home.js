@@ -1,16 +1,11 @@
 import React, { Component } from "react";
-import {Container,Header,CardItem,Thumbnail,Content,Footer,Text,FooterTab,Button,Form,Item,Picker,Card,Body,Right,Left
-} from "native-base";
+import {Container,CardItem,Thumbnail,Footer,FooterTab,Button,Card,Body,Left} from "native-base";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
-import {
-  StyleSheet,
-  View,
-  ScrollView,
-  SafeAreaView,
-  Image,
-  FlatList
-} from "react-native";
+import {StyleSheet,View,ScrollView,SafeAreaView,Image,FlatList,Text} from "react-native";
 import { Actions } from "react-native-router-flux";
+import { connect } from "react-redux";
+import { storeCoffeeShopThunk } from  '../store/utilities/coffeeShop';
+
 const DATA = [
   {
     id: "bd7acbea-c1b1-46c2-aed5-3ad53abb28ba",
@@ -25,7 +20,7 @@ const DATA = [
     title: "Third Item"
   }
 ];
-export default class Home extends React.Component {
+class Home extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -101,11 +96,12 @@ export default class Home extends React.Component {
           </CardItem>
           <CardItem>
             <Body>
-              <Image
+              {/* <Image
                 source={{ uri: "" }}
                 style={{ height: '30%', width: "90%", flex: 1 }}
                 onPress={() => this.goToCoffeeShop()}
               />
+              */}
               <Text>title</Text>
             </Body>
           </CardItem>
@@ -119,6 +115,7 @@ export default class Home extends React.Component {
         </Card>
       );
     }
+    let i = 0;
     return (
       <Container>
         <SafeAreaView style={styles.container}>
@@ -126,6 +123,7 @@ export default class Home extends React.Component {
             data={this.state.cards}
             renderItem={({ item }) => (
               <Item
+                key={i++}
                 title={item.title}
                 distance={item.distance}
                 img={item.img}
@@ -157,6 +155,22 @@ export default class Home extends React.Component {
     );
   }
 }
+
+const mapState = (state) => {
+	return {
+		coffeeShop: state.coffeeShop
+	}
+}
+
+const mapDispatch = (dispatch) => {
+	return {
+		storeCoffeeShop: (coffeeShop) => dispatch(storeCoffeeShopThunk(coffeeShop))
+	}
+}
+
+export default connect(mapState, mapDispatch)(Home);
+
+
 const styles = StyleSheet.create({
   midText: {
     marginTop: "10%",

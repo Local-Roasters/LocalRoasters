@@ -1,33 +1,40 @@
-import React from 'react';import { Container, Header, Content, Footer, FooterTab, Button, Form, Item, Picker, Card, CardItem, Body, Left } from 'native-base';
+import React from 'react';
+import { Content, Item} from 'native-base';
 import { StyleSheet, Text, View,Image } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import { Actions } from 'react-native-router-flux';
-import Constants from 'expo-constants';
+import { connect } from "react-redux";
+import { getCoffeeShopThunk } from  '../store/utilities/coffeeShop';
 
-
-export default class CoffeeShop extends React.Component {
+class CoffeeShop extends React.Component {
+	_isMounted = false;
 	constructor(props) {
 		super(props);
 		this.state = {
-			coffeeShops: [
-				{
-				  id: "1",
-				  title: "Cafe Bene",
-				  distance: "0.1",
-				  img: "https://i.imgur.com/CXgFFLK.png",
-				  coffeeBeans: 3,
-				  yelpRating:4
-				}
-			]
+			coffeeShop: []
 		};
 	}
-	getStars(yelpRating){
-		let stars=[]
-		for(let i=0; i<yelpRating; i++){
-		  stars.push((<Image source={require("./../images/YelpStar.png")} style={{ height: 30, width: 30, flexDirection: 'row', marginLeft:5}}/>))
+	
+	async componentDidMount() {
+		this._isMounted = true;
+		try{
+			await this.props.getCoffeeShop();
+			console.log(this.props.coffeeShop)
+			if(this._isMounted){
+				this.setState({
+					coffeeShop: this.props.coffeeShop
+				})
+			}
 		}
-		return stars
+		catch(err){
+			console.log(err)
+		}
+
 	}
+
+	componentWillUnmount() {
+		this._isMounted = false;
+	}
+
     render() {
 		let stars= this.getStars(this.state.coffeeShops[0].yelpRating)
 		return (
@@ -64,6 +71,21 @@ export default class CoffeeShop extends React.Component {
         )
     }
 }
+
+const mapState = (state) => {
+	return {
+		coffeeShop: state.coffeeShop
+	}
+}
+
+const mapDispatch = (dispatch) => {
+	return {
+		getCoffeeShop: () => dispatch(getCoffeeShopThunk())
+	}
+}
+
+export default connect(mapState, mapDispatch)(CoffeeShop);
+
 const styles = StyleSheet.create({
 	background:{
 		height: 200,
