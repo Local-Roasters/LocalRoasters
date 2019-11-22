@@ -79,9 +79,9 @@ class Home extends React.Component {
 
   render() {
     function Item({title, distance, img, coffeeBeans, yelpRating}){
-      let stars=[]
-      for(let i=0; i<yelpRating; i++){
-        stars.push((<Image source={require("./../images/YelpStar.png")} style={{ height: 30, width: 30, flexDirection: 'row', marginLeft:5}}/>))
+      let beans=[]
+      for(let i=0; i<coffeeBeans; i++){
+        beans.push((<Image source={require("./../images/CoffeeBean.png")} style={{ height: 30, width: 30, flexDirection: 'row', marginLeft:5}}/>))
       }
       return (
         <Card style={styles.cardItems}>
@@ -108,7 +108,7 @@ class Home extends React.Component {
           <CardItem>
             <Left>
               <Button transparent textStyle={{ color: "#87838B" }}>
-                {stars}
+                {beans}
               </Button>
             </Left>
           </CardItem>
@@ -128,8 +128,8 @@ class Home extends React.Component {
                 distance={item.distance}
                 img={item.img}
                 rating={item.rating}
-                // coffeeBeans={item.coffeeBeans}
                 yelpRating={item.yelpRating}
+                coffeeBeans={item.coffeeBeans}
               />
             )}
             keyExtractor={item => item.id}
