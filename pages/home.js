@@ -4,7 +4,7 @@ import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import {StyleSheet,View,ScrollView,SafeAreaView,Image,FlatList,Text, TouchableHighlight} from "react-native";
 import { Actions } from "react-native-router-flux";
 import { connect } from "react-redux";
-import { storeCoffeeShopThunk, selectCoffeeShopThunk, getCoffeeShopThunk } from  '../store/utilities/coffeeShop';
+import { storeCoffeeShopThunk, getCoffeeShopThunk } from  '../store/utilities/coffeeShop';
 
 const DATA = [
   {
@@ -51,13 +51,11 @@ class Home extends React.Component {
         }
       ]
     };
-    this.generateStars=this.generateStars.bind(this)
     this.goToCoffeeShop = this.goToCoffeeShop.bind(this)
   }
   async componentDidMount() {
 		this._isMounted = true;
 		try{ 
-      await this.props.storeCoffeeShop(this.state.cards);
       await this.props.getCoffeeShop();
 			console.log(this.props.coffeeShop)
 			if(this._isMounted){
@@ -80,31 +78,16 @@ class Home extends React.Component {
     Actions.coffeeMap();
   }
   async goToCoffeeShop(id) {
-    // 
     try{ 
-      await this.props.selectCoffeeShop(id);
-      console.log(this.props.id);
+      let select= this.state.cards.filter(shop=>shop.id==id)
+      await this.props.storeCoffeeShop(select[0]);
+      console.log(this.props.coffeeShop);
       Actions.coffeeShop();
     }
     catch(err){
 			console.log(err)
     }
   }
-  generateBean(beans){
-    let beanIcons=[]
-    for(let i=0; i<coffeeBeans; i++){
-      beanIcons.push((<Image source={require("./../images/CoffeeBean.png")} style={{ height: 30, width: 30, flexDirection: 'row'}}/>))
-    }
-    return beanIcons
-  }
-  generateStars = (rating)=>{
-    let stars=[]
-    for(let i=0; i<rating; i++){
-      stars.push((<Image source={require("./../images/YelpStar.png")} style={{ height: 30, width: 30, flexDirection: 'row', marginLeft:5}}/>))
-    }
-    return stars
-  }
-
   render() {
     function Item({id, title, distance, img, coffeeBeans, yelpRating}){
       let beans=[]
@@ -182,15 +165,13 @@ class Home extends React.Component {
 
 const mapState = (state) => {
 	return {
-    coffeeShop: state.coffeeShop,
-    id:state.coffeeShop
+    coffeeShop: state.coffeeShop
 	}
 }
 
 const mapDispatch = (dispatch) => {
 	return {
     storeCoffeeShop: (coffeeShop) => dispatch(storeCoffeeShopThunk(coffeeShop)),
-    selectCoffeeShop: (id) => dispatch(selectCoffeeShopThunk(id)),
     getCoffeeShop: () => dispatch(getCoffeeShopThunk())
 	}
 }

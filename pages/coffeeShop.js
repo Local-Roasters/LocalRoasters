@@ -18,12 +18,10 @@ class CoffeeShop extends React.Component {
 		this._isMounted = true;
 		try{
 			await this.props.getCoffeeShop();
-			let coffeeShops=this.props.coffeeShop.coffeeShops
-			let id= this.props.coffeeShop.id
-			let select= coffeeShops.filter(shop=>shop.id==id)
+			console.log(this.props.coffeeShop)
 			if(this._isMounted){
 				this.setState({
-					selectCoffeeShop: select[0]
+					selectCoffeeShop: this.props.coffeeShop
 				})
 			}
 		}
