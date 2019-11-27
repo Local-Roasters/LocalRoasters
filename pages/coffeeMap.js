@@ -1,5 +1,5 @@
 import React from 'react'
-import { TouchableOpacity, Text, Dimensions, StyleSheet, View, Modal, Alert } from 'react-native'
+import { TouchableOpacity, Text,StyleSheet, View, Modal } from 'react-native'
 import { Footer, FooterTab, Card, Button } from 'native-base';
 import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -120,8 +120,7 @@ class CoffeeMap extends React.Component {
 					animationType="slide"
 					transparent={false}
 					visible={this.state.modalVisible}
-					onRequestClose={() => { this.setModalVisible(false); }}
-				>
+					onRequestClose={() => { this.setModalVisible(false); }}>
 					<View style={{ marginTop: 22 }}>
 						<View>
 							<Text>Form</Text>
