@@ -102,9 +102,11 @@ class Home extends React.Component {
   async goToCoffeeShop(id) {
     try {
       let select = this.state.coffeeShops.filter(a => a._id == id);
-      console.log(select + "JERE");
+      console.log("JERE");
+      console.log(this.state.coffeeShops);
+      console.log("RESU:T");
+      console.log(select[0]);
       await this.props.storeCoffeeShop(select[0]);
-      console.log(this.props.coffeeShop);
       Actions.coffeeShop();
     } catch (err) {
       console.log(err);
