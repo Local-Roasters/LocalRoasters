@@ -1,10 +1,34 @@
 import React, { Component } from "react";
-import {Container,CardItem,Thumbnail,Footer,FooterTab,Button,Card,Body,Left} from "native-base";
+import {
+  Container,
+  CardItem,
+  Thumbnail,
+  Footer,
+  FooterTab,
+  Button,
+  Card,
+  Body,
+  Left
+} from "native-base";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
-import {StyleSheet,View,ScrollView,SafeAreaView,Image,FlatList,Text, TouchableHighlight} from "react-native";
+import {
+  StyleSheet,
+  View,
+  ScrollView,
+  SafeAreaView,
+  Image,
+  FlatList,
+  Text,
+  TouchableHighlight
+} from "react-native";
+import axios from "axios";
+
 import { Actions } from "react-native-router-flux";
 import { connect } from "react-redux";
-import { storeCoffeeShopThunk, getCoffeeShopThunk } from  '../store/utilities/coffeeShop';
+import {
+  storeCoffeeShopThunk,
+  getCoffeeShopThunk
+} from "../store/utilities/coffeeShop";
 
 const DATA = [
   {
@@ -24,53 +48,51 @@ class Home extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      cards: [
+      coffeeShops: [
         {
-          id: "1",
-          title: "Cafe Bene",
-          distance: "0.1",
-          img: "https://i.imgur.com/CXgFFLK.png",
-          coffeeBeans: 3,
-          yelpRating:4
-        },
-        {
-          id: "2",
-          title: "Starby's",
-          distance: "0.1",
-          img: "https://i.imgur.com/CXgFFLK.png",
-          coffeeBeans: 2,
-          yelpRating:5
-        },
-        {
-          id: "58694a0f-3da1-471f-bd96-145571e29d72",
-          title: "Local Deli",
-          distance: "0.3",
-          img: "https://i.imgur.com/fc08sWU.png",
-          coffeeBeans: 3,
-          yelpRating:4
+          __v: 0,
+          _id: "5ddd2399f6c79b1b50ec9732",
+          coffee: {
+            roast: "Medium",
+            roaster: "Bulk Supply/Unknown"
+          },
+          img: "https://imgur.com/3f1557d5-16fa-4848-a4c7-56a6759765d6",
+          location: {
+            latitude: 40.6716541,
+            longitude: -73.9529795,
+            number: 167,
+            streetName: "rogers ave",
+            zip: 11216
+          },
+          name: "Manhattanvile",
+          price: 5,
+          rating: 2
         }
       ]
     };
-    this.goToCoffeeShop = this.goToCoffeeShop.bind(this)
+    this.goToCoffeeShop = this.goToCoffeeShop.bind(this);
   }
   async componentDidMount() {
-		this._isMounted = true;
-		try{ 
+    try {
       await this.props.getCoffeeShop();
-			console.log(this.props.coffeeShop)
-			if(this._isMounted){
-				this.setState({
-					coffeeShop: this.props.coffeeShop
-				})
-			}
-		}
-		catch(err){
-			console.log(err)
+      console.log("COFEEEEE" + this.state.coffeeShops);
+      let { data } = await axios.get(
+        `https://localroasters-api.herokuapp.com/roasters/?latitude=40.678833&longitude=-73.950676`
+      );
+      await console.log(data);
+      this._isMounted = true;
+      if (this._isMounted) {
+        this.setState({
+          coffeeShops: data
+        });
+      }
+    } catch (err) {
+      console.log(err);
     }
   }
   componentWillUnmount() {
-		this._isMounted = false;
-	}
+    this._isMounted = false;
+  }
   goToProfile() {
     Actions.profile();
   }
@@ -78,37 +100,45 @@ class Home extends React.Component {
     Actions.coffeeMap();
   }
   async goToCoffeeShop(id) {
-    try{ 
-      let select= this.state.cards.filter(shop=>shop.id==id)
+    try {
+      let select = this.state.coffeeShops.filter(a => a._id == id);
+      console.log(select + "JERE");
       await this.props.storeCoffeeShop(select[0]);
       console.log(this.props.coffeeShop);
       Actions.coffeeShop();
-    }
-    catch(err){
-			console.log(err)
+    } catch (err) {
+      console.log(err);
     }
   }
   render() {
-    function Item({id, title, distance, img, coffeeBeans, yelpRating}){
-      let beans=[]
-      for(let i=0; i<coffeeBeans; i++){
-        beans.push((<Image key={i} source={require("./../images/CoffeeBean.png")} style={{ height: 30, width: 30, flexDirection: 'row', marginLeft:5}}/>))
+    function Item({ name, img, price, coffeeBeans }) {
+      let beans = [];
+      console.log(coffeeBeans);
+      for (let i = 0; i < coffeeBeans; i++) {
+        beans.push(
+          <Image
+            key={i}
+            source={require("./../images/coffee-grain-fill.png")}
+            style={{
+              height: 30,
+              width: 30,
+              flexDirection: "row",
+              marginLeft: 5
+            }}
+          />
+        );
       }
+      console.log("beans" + beans);
       return (
         <Card style={styles.cardItems}>
           <CardItem>
             <Left>
-              <Thumbnail source={{ uri: img }}/>
+              <Thumbnail source={{ uri: img }} />
               <Body>
-                <Text>{title}</Text>
-                <Text>{distance} miles away</Text>
+                <Text>{name}</Text>
+                <Text>Price : {price}</Text>
               </Body>
             </Left>
-          </CardItem>
-          <CardItem>
-            {/* <Body>
-              <Text>{title}</Text>
-            </Body> */}
           </CardItem>
           <CardItem>
             <Left>
@@ -125,21 +155,26 @@ class Home extends React.Component {
       <Container>
         <SafeAreaView style={styles.container}>
           <FlatList
-            data={this.state.cards}
-            renderItem={({ item ,i}) => (
-              <TouchableHighlight onPress={()=> this.goToCoffeeShop(item.id)}>
-              <Item 
-                id={item.id}
-                key={i}
-                title={item.title}
-                distance={item.distance}
-                img={item.img}
-                rating={item.rating}
-                yelpRating={item.yelpRating}
-                coffeeBeans={item.coffeeBeans}
-              /></TouchableHighlight>
+            data={this.state.coffeeShops}
+            renderItem={({ item }) => (
+              <TouchableHighlight
+                onPress={() => {
+                  console.log("ITEMS" + item);
+                  this.goToCoffeeShop(item._id);
+                }}
+              >
+                <Item
+                  id={item._id}
+                  key={i++}
+                  name={item.name}
+                  distance={1}
+                  img={item.img}
+                  price={item.price}
+                  coffeeBeans={item.rating}
+                />
+              </TouchableHighlight>
             )}
-            keyExtractor={item => item.id}
+            keyExtractor={item => item._id}
           ></FlatList>
         </SafeAreaView>
         <Footer>
@@ -163,21 +198,20 @@ class Home extends React.Component {
   }
 }
 
-const mapState = (state) => {
-	return {
-    coffeeShop: state.coffeeShop
-	}
-}
+const mapState = state => {
+  return {
+    coffeeShop: state.coffeeShops
+  };
+};
 
-const mapDispatch = (dispatch) => {
-	return {
-    storeCoffeeShop: (coffeeShop) => dispatch(storeCoffeeShopThunk(coffeeShop)),
+const mapDispatch = dispatch => {
+  return {
+    storeCoffeeShop: coffeeShop => dispatch(storeCoffeeShopThunk(coffeeShop)),
     getCoffeeShop: () => dispatch(getCoffeeShopThunk())
-	}
-}
+  };
+};
 
 export default connect(mapState, mapDispatch)(Home);
-
 
 const styles = StyleSheet.create({
   midText: {
@@ -203,7 +237,5 @@ const styles = StyleSheet.create({
   navText: {
     color: "white"
   },
-  cardItems:{
-
-  }
+  cardItems: {}
 });
