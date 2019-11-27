@@ -32,17 +32,17 @@ class CoffeeShop extends React.Component {
   }
 
   async componentDidMount() {
-    // this._isMounted = true;
+    this._isMounted = true;
     try {
       //Just updates the state
       await this.props.getCoffeeShop();
       console.log("in shop");
       console.log(this.props.coffeeShop);
-      //   if (this._isMounted) {
-      this.setState({
-        selectCoffeeShop: this.props.coffeeShop
-      });
-      //   }
+      if (this._isMounted) {
+        this.setState({
+          selectCoffeeShop: this.props.coffeeShop
+        });
+      }
       //   console.log(this.state);
     } catch (err) {
       console.log(err);
@@ -54,7 +54,16 @@ class CoffeeShop extends React.Component {
   }
   render() {
     let beanIcons = [];
-    for (let i = 0; i < this.state.selectCoffeeShop.rating; i++) {
+    let {
+      name,
+      price,
+      rating,
+      coffee,
+      location,
+      sustainable,
+      img
+    } = this.state.selectCoffeeShop;
+    for (let i = 0; i < rating; i++) {
       beanIcons.push(
         <Image
           source={require("./../images/coffee-grain-fill.png")}
@@ -63,18 +72,16 @@ class CoffeeShop extends React.Component {
         />
       );
     }
-    let imgUrl = "" + this.state.selectCoffeeShop.img;
-    console.log(imgUrl);
+    let imgUrl = "" + img;
+
     return (
       <Content style={styles.content}>
         <Image source={{ uri: imgUrl }} style={styles.background} />
         <Item style={{ borderBottomWidth: 0 }}>
-          <Text style={styles.Text1}>{this.state.selectCoffeeShop.name}</Text>
+          <Text style={styles.Text1}>{name}</Text>
         </Item>
         <Item style={{ borderBottomWidth: 0, marginBottom: 10 }}>
-          <Text style={styles.Text2}>
-            ${this.state.selectCoffeeShop.price} per cup
-          </Text>
+          <Text style={styles.Text2}>${price} per cup</Text>
         </Item>
         <Item
           style={{
@@ -85,12 +92,23 @@ class CoffeeShop extends React.Component {
           }}
         >
           {beanIcons}
+          {sustainable && (
+            <Image
+              source={require("./../images/leaf.png")}
+              style={{
+                marginLeft: 90,
+                height: 30,
+                width: 30,
+                flexDirection: "row"
+              }}
+            ></Image>
+          )}
         </Item>
         <Card style={styles.cardStyle}>
           <CardItem>
             <Body>
               <Text>Price Per Cup</Text>
-              <Text>Description</Text>
+              <Text></Text>
             </Body>
           </CardItem>
         </Card>
