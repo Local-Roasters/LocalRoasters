@@ -70,13 +70,13 @@ class CoffeeMap extends React.Component {
             );
             let pins = [];
             console.log(data);
-            data.forEach((item, i) => {
+            data.forEach((item, i = 0) => {
               pins.push(
                 <MapView.Marker
                   key={i++}
                   coordinate={{
-                    latitude: location[`coords`][`latitude`],
-                    longitude: location[`coords`][`longitude`]
+                    latitude: item.location[`latitude`],
+                    longitude: item.location[`longitude`]
                   }}
                 >
                   <MapView.Callout onPress={() => this.handlePress(item)}>
@@ -89,6 +89,7 @@ class CoffeeMap extends React.Component {
                 </MapView.Marker>
               );
             });
+            console.log(`pins${pins[0]}`);
             if (this._isMounted) {
               this.setState({
                 pins: pins
