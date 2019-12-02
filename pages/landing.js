@@ -112,11 +112,11 @@ class Landing extends React.Component {
 	render() {
 		return (
 			<Container style={styles.container}>
+				<View >
+					<Text style={styles.title}>Customize Your Roast</Text>
+					<Image source={require("../images/Local_Roast_Logo.png")} style={styles.logo} />
+				</View>
 				<Content style={styles.content}>
-					<View >
-						<Text style={styles.title}>Customize Your Roast</Text>
-						<Image source={require("../images/Local_Roast_Logo.png")} style={styles.logo} />
-					</View>
 					<Card>
 						<CardItem style={styles.dollar, {
 							backgroundColor: this.state.seg1 === 1 ? "white" : this.state.seg1 === 2 ? "#D0B99B" : undefined,
@@ -179,7 +179,7 @@ const styles = StyleSheet.create({
 		width: "100%",
 	},
 	logo: {
-		marginTop: 10,
+		marginTop: 20,
 		width: 200,
 		height: 200,
 		marginRight: 'auto',
@@ -188,7 +188,7 @@ const styles = StyleSheet.create({
 	title: {
 		fontSize: 25,
 		padding: 25,
-		marginTop: "20%",
+		marginTop: "30%",
 		color: '#B98B50',
 		marginRight: 'auto',
 		marginLeft: 'auto'
