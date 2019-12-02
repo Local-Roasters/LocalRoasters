@@ -1,16 +1,16 @@
 import React from 'react';
-import { Content, Item} from 'native-base';
-import { StyleSheet, Text, View,Image } from 'react-native';
+import {Container,Content, CardItem,Thumbnail,Footer,FooterTab,Button,Card,Body,Left, Item} from "native-base";
+import { StyleSheet, Text, View, Image } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { connect } from "react-redux";
-import { getCoffeeShopThunk } from  '../store/utilities/coffeeShop';
+import { getCoffeeShopThunk,selectCoffeeShopThunk } from  '../store/utilities/coffeeShop';
 
 class CoffeeShop extends React.Component {
 	_isMounted = false;
 	constructor(props) {
 		super(props);
 		this.state = {
-			coffeeShop: []
+			selectCoffeeShop: {}
 		};
 	}
 	
@@ -21,7 +21,7 @@ class CoffeeShop extends React.Component {
 			console.log(this.props.coffeeShop)
 			if(this._isMounted){
 				this.setState({
-					coffeeShop: this.props.coffeeShop
+					selectCoffeeShop: this.props.coffeeShop
 				})
 			}
 		}
@@ -34,23 +34,23 @@ class CoffeeShop extends React.Component {
 	componentWillUnmount() {
 		this._isMounted = false;
 	}
-
     render() {
-		let stars= this.getStars(this.state.coffeeShops[0].yelpRating)
+		let beanIcons=[]
+		for(let i=0; i< this.state.selectCoffeeShop.coffeeBeans; i++){
+		  beanIcons.push((<Image source={require("./../images/CoffeeBean.png")} style={{ height: 30, width: 30, flexDirection: 'row'}}/>))
+		}
+		let imgUrl=""+this.state.selectCoffeeShop.img
 		return (
         <Content style={styles.content}>
-			<Image
-                source={require("../images/coffeeShopImage.jpg")}
-                style={styles.background}
-            />
+			<Image source={{uri: imgUrl}} style={styles.background}/>
 			<Item style={{ borderBottomWidth: 0 }}>
-                <Text style={styles.Text1}>Coffee Shop </Text>
+				<Text style={styles.Text1}>{this.state.selectCoffeeShop.title}</Text>
             </Item>
 			<Item style={{ borderBottomWidth: 0, marginBottom: 10}}>
-				<Text style={styles.Text2}>Distance Away</Text>
+				<Text style={styles.Text2}>{this.state.selectCoffeeShop.distance} Miles Away</Text>
 			</Item>
 			<Item style={{ borderBottomWidth: 0, marginBottom: 20, marginLeft:"auto", marginRight:"auto"}}>
-				{stars}
+				{beanIcons}
 			</Item>
 			<Card style={styles.cardStyle}>
 				<CardItem>
@@ -60,13 +60,6 @@ class CoffeeShop extends React.Component {
 					</Body>
 				</CardItem>
 			</Card>
-            <Item style={{ borderBottomWidth: 0 }}>
-                    {/* <Image
-                        source={require("../images/coffeeShopImage.jpg")}
-                        style={styles.coffeeShopImage}
-                    /> */}
-				
-            </Item>
         </Content>
         )
     }
@@ -74,7 +67,8 @@ class CoffeeShop extends React.Component {
 
 const mapState = (state) => {
 	return {
-		coffeeShop: state.coffeeShop
+		coffeeShop: state.coffeeShop,
+		id: state.id
 	}
 }
 
