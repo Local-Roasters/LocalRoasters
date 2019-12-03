@@ -43,7 +43,7 @@ class CoffeeShop extends React.Component {
           selectCoffeeShop: this.props.coffeeShop
         });
       }
-      //   console.log(this.state);
+
     } catch (err) {
       console.log(err);
     }
