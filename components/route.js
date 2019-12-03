@@ -15,8 +15,8 @@ const Routes = (props) => (
             <Scene key="landing" hideNavBar={1} component={Landing} />
             <Scene type="reset" key="home" component={Home} hideNavBar={1} initial={true}/>
             <Scene type="reset" key="profile" hideNavBar={1}  component={Profile} />
-            <Scene type="reset" key="coffeeMap" hideNavBar={1} component={CoffeeMap} title="Coffee Map" />
-            <Scene key="addCoffeeShop" component={addCoffeeShop} />
+            <Scene type="reset" key="coffeeMap" hideNavBar={1} component={CoffeeMap} title="Coffee Map"/>
+            <Scene key="addCoffeeShop" component={addCoffeeShop}/>
             <Scene key="coffeeShop" component={CoffeeShop}/>
         </View>
     </Router>
