@@ -13,6 +13,7 @@ import {
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import {
   StyleSheet,
+  TouchableOpacity,
   View,
   ScrollView,
   SafeAreaView,
@@ -179,6 +180,9 @@ class Home extends React.Component {
             keyExtractor={item => item._id}
           ></FlatList>
         </SafeAreaView>
+        <TouchableOpacity style={styles.addButton} onPress={()=>Actions.addCoffeeShop()}>
+            <Text style={styles.plusText}>+</Text>
+          </TouchableOpacity>
         <Footer>
           <FooterTab>
             <Button style={styles.navButton}>
@@ -230,7 +234,8 @@ const styles = StyleSheet.create({
     marginBottom: 20
   },
   container: {
-    flex: 1
+    flex: 1,
+    marginTop: "10%"
   },
   navButton: {
     backgroundColor: "#9A764E",
@@ -239,5 +244,23 @@ const styles = StyleSheet.create({
   navText: {
     color: "white"
   },
-  cardItems: {}
+  addButton: {
+    width: 50,
+    height: 50,
+    position: 'absolute',
+    right: '5%',
+    bottom: '10%',
+    backgroundColor: '#955E16',
+    borderRadius: 30,
+  },
+  plusText:{
+    position: 'relative',
+    color:'white', 
+    fontSize: 40, 
+    marginRight: 'auto', 
+    marginLeft: 'auto', 
+    marginTop:"auto",
+    marginBottom:"auto",
+    color: 'white'
+  }
 });
