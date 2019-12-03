@@ -106,9 +106,6 @@ class CoffeeMap extends React.Component {
       console.log(err);
     }
   }
-import React from 'react'
-import { TouchableOpacity, Text,StyleSheet, View, Modal } from 'react-native'
-
 
   componentWillUnmount() {
     this._isMounted = false;
