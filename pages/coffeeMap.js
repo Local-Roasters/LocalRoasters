@@ -1,5 +1,5 @@
 import React from 'react'
-import { TouchableOpacity, Text, Dimensions, StyleSheet, View } from 'react-native'
+import { TouchableOpacity, Text, Dimensions, StyleSheet, View} from 'react-native'
 import { Container, Header, Content, Footer, FooterTab, Button, Form, Item, Picker, Card, CardItem, Body, Left } from 'native-base';
 import MapView,{ PROVIDER_GOOGLE } from 'react-native-maps';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -110,6 +110,9 @@ class CoffeeMap extends React.Component {
 					ref={ref => { this.mapView = ref }}>
 					{this.state.pins}
 				</MapView>
+          <TouchableOpacity style={styles.addButton} onPress={()=>Actions.addCoffeeShop()}>
+            <Text style={styles.plusText}>+</Text>
+          </TouchableOpacity>
 				<Footer>
                   <FooterTab>
                      <Button style={styles.navButton} onPress={()=>this.goToHome()}>
@@ -162,5 +165,24 @@ const styles = StyleSheet.create({
 		left: 0,
 		bottom: 0,
 		right: 0
-	}
+  },
+  addButton: {
+    width: 50,
+    height: 50,
+    position: 'absolute',
+    right: '5%',
+    bottom: '10%',
+    backgroundColor: '#955E16',
+    borderRadius: 30,
+  },
+  plusText:{
+    position: 'relative',
+    color:'white', 
+    fontSize: 40, 
+    marginRight: 'auto', 
+    marginLeft: 'auto', 
+    marginTop:"auto",
+    marginBottom:"auto",
+    color: 'white'
+  }
 });
