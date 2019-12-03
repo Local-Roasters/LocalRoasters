@@ -1,74 +1,17 @@
-import React, { Component } from "react";
-import {
-  Container,
-  CardItem,
-  Thumbnail,
-  Footer,
-  FooterTab,
-  Button,
-  Card,
-  Body,
-  Left
-} from "native-base";
+import React from "react";
+import {Container,CardItem,Thumbnail,Footer,FooterTab,Button,Card,Body,Left} from "native-base";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
-import {
-  StyleSheet,
-  TouchableOpacity,
-  View,
-  ScrollView,
-  SafeAreaView,
-  Image,
-  FlatList,
-  Text,
-  TouchableHighlight
-} from "react-native";
+import {StyleSheet,TouchableOpacity,SafeAreaView,Image,FlatList,Text,TouchableHighlight} from "react-native";
 import axios from "axios";
-
 import { Actions } from "react-native-router-flux";
 import { connect } from "react-redux";
-import {
-  storeCoffeeShopThunk,
-  getCoffeeShopThunk
-} from "../store/utilities/coffeeShop";
+import {storeCoffeeShopThunk,getCoffeeShopThunk} from "../store/utilities/coffeeShop";
 
-const DATA = [
-  {
-    id: "bd7acbea-c1b1-46c2-aed5-3ad53abb28ba",
-    title: "First Item"
-  },
-  {
-    id: "3ac68afc-c605-48d3-a4f8-fbd91aa97f63",
-    title: "Second Item"
-  },
-  {
-    id: "58694a0f-3da1-471f-bd96-145571e29d72",
-    title: "Third Item"
-  }
-];
 class Home extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       coffeeShops: [
-        {
-          __v: 0,
-          _id: "5ddd2399f6c79b1b50ec9732",
-          coffee: {
-            roast: "Medium",
-            roaster: "Bulk Supply/Unknown"
-          },
-          img: "https://imgur.com/3f1557d5-16fa-4848-a4c7-56a6759765d6",
-          location: {
-            latitude: 40.6716541,
-            longitude: -73.9529795,
-            number: 167,
-            streetName: "rogers ave",
-            zip: 11216
-          },
-          name: "Manhattanvile",
-          price: 5,
-          rating: 2
-        }
       ]
     };
     this.goToCoffeeShop = this.goToCoffeeShop.bind(this);
@@ -76,7 +19,6 @@ class Home extends React.Component {
   async componentDidMount() {
     try {
       await this.props.getCoffeeShop();
-      console.log("COFEEEEE" + this.state.coffeeShops);
       let { data } = await axios.get(
         `https://localroasters-api.herokuapp.com/roasters/?latitude=40.678833&longitude=-73.950676`
       );
@@ -103,10 +45,7 @@ class Home extends React.Component {
   async goToCoffeeShop(id) {
     try {
       let select = this.state.coffeeShops.filter(a => a._id == id);
-      console.log("JERE");
-      console.log(this.state.coffeeShops);
-      console.log("RESU:T");
-      console.log(select[0]);
+  
       await this.props.storeCoffeeShop(select[0]);
       Actions.coffeeShop();
     } catch (err) {
@@ -116,7 +55,6 @@ class Home extends React.Component {
   render() {
     function Item({ name, img, price, coffeeBeans }) {
       let beans = [];
-      console.log(coffeeBeans);
       for (let i = 0; i < coffeeBeans; i++) {
         beans.push(
           <Image
