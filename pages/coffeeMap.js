@@ -1,26 +1,6 @@
 import React from "react";
-import {
-  TouchableOpacity,
-  Text,
-  Dimensions,
-  StyleSheet,
-  View
-} from "react-native";
-import {
-  Container,
-  Header,
-  Content,
-  Footer,
-  FooterTab,
-  Button,
-  Form,
-  Item,
-  Picker,
-  Card,
-  CardItem,
-  Body,
-  Left
-} from "native-base";
+import {Text,StyleSheet,View} from "react-native";
+import {Footer,FooterTab,Button} from "native-base";
 import MapView, { PROVIDER_GOOGLE } from "react-native-maps";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import axios from "axios";

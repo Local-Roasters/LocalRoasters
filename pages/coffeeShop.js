@@ -1,26 +1,8 @@
 import React from "react";
-import {
-  Container,
-  Content,
-  CardItem,
-  Thumbnail,
-  Footer,
-  FooterTab,
-  Button,
-  Card,
-  Body,
-  Left,
-  Item
-} from "native-base";
+import {Content,CardItem,Card,Body,Item} from "native-base";
 import { StyleSheet, Text, View, Image } from "react-native";
-import axios from "axios";
-
-import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { connect } from "react-redux";
-import {
-  getCoffeeShopThunk,
-  selectCoffeeShopThunk
-} from "../store/utilities/coffeeShop";
+import {getCoffeeShopThunk} from "../store/utilities/coffeeShop";
 
 class CoffeeShop extends React.Component {
   _isMounted = false;
@@ -43,7 +25,7 @@ class CoffeeShop extends React.Component {
           selectCoffeeShop: this.props.coffeeShop
         });
       }
-      //   console.log(this.state);
+
     } catch (err) {
       console.log(err);
     }
