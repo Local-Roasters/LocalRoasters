@@ -43,7 +43,6 @@ class CoffeeMap extends React.Component {
 					try {
 						let { data } = await axios.get(`https://localroasters-api.herokuapp.com/roasters/?latitude=${location[`coords`][`latitude`]}&longitude=${location[`coords`][`longitude`]}`);
 						let pins = [];
-						console.log(data)
 						data.forEach((item, i) => {
 							pins.push(
 								<MapView.Marker

@@ -22,13 +22,13 @@ export const storeCoffeeShopThunk = (coffeeShop) => (dispatch) =>{
     dispatch(storeCoffeeShop(coffeeShop));
 }
 
-export default coffeeShop = (state={}, action) =>{
+export default coffeeShop = (state = [], action) =>{
     switch (action.type) {
         case GET_COFFEE_SHOP:{
-            return state
+            return state;
         }
         case STORE_COFFEE_SHOP:{
-            return action.payload
+            return action.payload;
         }
         default:{
             return state;

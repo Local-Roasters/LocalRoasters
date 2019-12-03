@@ -1,10 +1,10 @@
 import React, { Component } from "react";
 import {Container,CardItem,Thumbnail,Footer,FooterTab,Button,Card,Body,Left} from "native-base";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
-import {StyleSheet,View,ScrollView,SafeAreaView,Image,FlatList,Text, TouchableHighlight} from "react-native";
+import {StyleSheet,View,ScrollView,SafeAreaView,Image,FlatList,Text} from "react-native";
 import { Actions } from "react-native-router-flux";
 import { connect } from "react-redux";
-import { storeCoffeeShopThunk, getCoffeeShopThunk } from  '../store/utilities/coffeeShop';
+import { storeCoffeeShopThunk } from  '../store/utilities/coffeeShop';
 
 const DATA = [
   {
@@ -51,48 +51,37 @@ class Home extends React.Component {
         }
       ]
     };
-    this.goToCoffeeShop = this.goToCoffeeShop.bind(this)
+    this.generateStars=this.generateStars.bind(this)
   }
-  async componentDidMount() {
-		this._isMounted = true;
-		try{ 
-      await this.props.getCoffeeShop();
-			console.log(this.props.coffeeShop)
-			if(this._isMounted){
-				this.setState({
-					coffeeShop: this.props.coffeeShop
-				})
-			}
-		}
-		catch(err){
-			console.log(err)
-    }
-  }
-  componentWillUnmount() {
-		this._isMounted = false;
-	}
   goToProfile() {
     Actions.profile();
   }
   goToCoffeeMap() {
     Actions.coffeeMap();
   }
-  async goToCoffeeShop(id) {
-    try{ 
-      let select= this.state.cards.filter(shop=>shop.id==id)
-      await this.props.storeCoffeeShop(select[0]);
-      console.log(this.props.coffeeShop);
-      Actions.coffeeShop();
-    }
-    catch(err){
-			console.log(err)
-    }
+  goToCoffeeShop() {
+    Actions.coffeeShop();
   }
+  generateBean(beans){
+    let beanIcons=[]
+    for(let i=0; i<coffeeBeans; i++){
+      beanIcons.push((<Image source={require("./../images/CoffeeBean.png")} style={{ height: 30, width: 30, flexDirection: 'row'}}/>))
+    }
+    return beanIcons
+  }
+  generateStars = (rating)=>{
+    let stars=[]
+    for(let i=0; i<rating; i++){
+      stars.push((<Image source={require("./../images/YelpStar.png")} style={{ height: 30, width: 30, flexDirection: 'row', marginLeft:5}}/>))
+    }
+    return stars
+  }
+
   render() {
-    function Item({id, title, distance, img, coffeeBeans, yelpRating}){
-      let beans=[]
-      for(let i=0; i<coffeeBeans; i++){
-        beans.push((<Image key={i} source={require("./../images/CoffeeBean.png")} style={{ height: 30, width: 30, flexDirection: 'row', marginLeft:5}}/>))
+    function Item({title, distance, img, coffeeBeans, yelpRating}){
+      let stars=[]
+      for(let i=0; i<yelpRating; i++){
+        stars.push((<Image source={require("./../images/YelpStar.png")} style={{ height: 30, width: 30, flexDirection: 'row', marginLeft:5}}/>))
       }
       return (
         <Card style={styles.cardItems}>
@@ -100,20 +89,26 @@ class Home extends React.Component {
             <Left>
               <Thumbnail source={{ uri: img }}/>
               <Body>
-                <Text>{title}</Text>
+                <Text onPress={()=> Actions.coffeeShop()}>{title}</Text>
                 <Text>{distance} miles away</Text>
               </Body>
             </Left>
           </CardItem>
           <CardItem>
-            {/* <Body>
-              <Text>{title}</Text>
-            </Body> */}
+            <Body>
+              {/* <Image
+                source={{ uri: "" }}
+                style={{ height: '30%', width: "90%", flex: 1 }}
+                onPress={() => this.goToCoffeeShop()}
+              />
+              */}
+              <Text>title</Text>
+            </Body>
           </CardItem>
           <CardItem>
             <Left>
               <Button transparent textStyle={{ color: "#87838B" }}>
-                {beans}
+                {stars}
               </Button>
             </Left>
           </CardItem>
@@ -126,18 +121,16 @@ class Home extends React.Component {
         <SafeAreaView style={styles.container}>
           <FlatList
             data={this.state.cards}
-            renderItem={({ item ,i}) => (
-              <TouchableHighlight onPress={()=> this.goToCoffeeShop(item.id)}>
-              <Item 
-                id={item.id}
-                key={i}
+            renderItem={({ item }) => (
+              <Item
+                key={i++}
                 title={item.title}
                 distance={item.distance}
                 img={item.img}
                 rating={item.rating}
+                // coffeeBeans={item.coffeeBeans}
                 yelpRating={item.yelpRating}
-                coffeeBeans={item.coffeeBeans}
-              /></TouchableHighlight>
+              />
             )}
             keyExtractor={item => item.id}
           ></FlatList>
@@ -165,14 +158,13 @@ class Home extends React.Component {
 
 const mapState = (state) => {
 	return {
-    coffeeShop: state.coffeeShop
+		coffeeShop: state.coffeeShop
 	}
 }
 
 const mapDispatch = (dispatch) => {
 	return {
-    storeCoffeeShop: (coffeeShop) => dispatch(storeCoffeeShopThunk(coffeeShop)),
-    getCoffeeShop: () => dispatch(getCoffeeShopThunk())
+		storeCoffeeShop: (coffeeShop) => dispatch(storeCoffeeShopThunk(coffeeShop))
 	}
 }
 
