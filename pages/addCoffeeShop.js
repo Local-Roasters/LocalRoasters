@@ -13,13 +13,12 @@ import useForm from "react-hook-form"
 export default () => {
   const { register, setValue, handleSubmit } = useForm();
   const onSubmit = data => {
-    console.log(data)
-
     let roaster = {
       name: data.name,
       location : {
-        streetName: data.address.split("").slice(1).join(""),
-        number:data.address.split("")[0], zip:data.zipcode
+        streetName: data.address.split(" ").slice(1).join(" "),
+        number:data.address.split(" ")[0], 
+        zip:data.zipcode
       },
       price:data.price,
       rating:3,
