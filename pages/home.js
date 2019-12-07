@@ -1,76 +1,19 @@
-import React, { Component } from "react";
-import {
-  Container,
-  CardItem,
-  Thumbnail,
-  Footer,
-  FooterTab,
-  Button,
-  Card,
-  Body,
-  Left
-} from "native-base";
+import React from "react";
+import {Container,CardItem,Thumbnail,Footer,FooterTab,Button,Card,Body,Left, Right} from "native-base";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
-import {
-  StyleSheet,
-  TouchableOpacity,
-  View,
-  ScrollView,
-  SafeAreaView,
-  Image,
-  FlatList,
-  Text,
-  TouchableHighlight
-} from "react-native";
-
+import {StyleSheet,TouchableOpacity,SafeAreaView,Image,FlatList,Text,TouchableHighlight} from "react-native";
 import axios from "axios";
-
 import { Actions } from "react-native-router-flux";
 import { connect } from "react-redux";
-import {
-  storeCoffeeShopThunk,
-  getCoffeeShopThunk
-} from "../store/utilities/coffeeShop";
+import {storeCoffeeShopThunk,getCoffeeShopThunk} from "../store/utilities/coffeeShop";
 import Constants from 'expo-constants';
-
-const DATA = [
-  {
-    id: "bd7acbea-c1b1-46c2-aed5-3ad53abb28ba",
-    title: "First Item"
-  },
-  {
-    id: "3ac68afc-c605-48d3-a4f8-fbd91aa97f63",
-    title: "Second Item"
-  },
-  {
-    id: "58694a0f-3da1-471f-bd96-145571e29d72",
-    title: "Third Item"
-  }
-];
+// import { start } from "repl";
 class Home extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       coffeeShops: [
-        {
-          __v: 0,
-          _id: "5ddd2399f6c79b1b50ec9732",
-          coffee: {
-            roast: "Medium",
-            roaster: "Bulk Supply/Unknown"
-          },
-          img: "https://imgur.com/3f1557d5-16fa-4848-a4c7-56a6759765d6",
-          location: {
-            latitude: 40.6716541,
-            longitude: -73.9529795,
-            number: 167,
-            streetName: "rogers ave",
-            zip: 11216
-          },
-          name: "Manhattanvile",
-          price: 5,
-          rating: 2
-        }
+
       ],
       userData: {}
     };
@@ -80,7 +23,6 @@ class Home extends React.Component {
     let deviceId = Constants.installationId;
     try {
       let user = await axios.get(`https://localroasters-api.herokuapp.com/users/?phoneID=${deviceId}`);
-      await console.log(user.data)
       this._isMounted = true;
       if (this._isMounted) {
         this.setState({
@@ -91,10 +33,22 @@ class Home extends React.Component {
       let { data } = await axios.get(
         `https://localroasters-api.herokuapp.com/roasters/?latitude=40.678833&longitude=-73.950676`
       );
+      let startPrice=0;
+      let endPrice=0;
+      if(user.data.price<=2){
+        endPrice=2
+      }
+      else if(user.data.price<=4){
+        endPrice=4
+        startPrice=2
+      }
+      else{
+        startPrice=6
+        endPrice=100
+      }
       data = data.filter(coffeeShop=>{
-        return coffeeShop.price == user.data.price 
+        return coffeeShop.price <= endPrice && coffeeShop.price >= startPrice
       })
-      console.log(data)
       this._isMounted = true;
       if (this._isMounted) {
         this.setState({
@@ -130,9 +84,9 @@ class Home extends React.Component {
   render() {
     function Item({ name, img, price, coffeeBeans }) {
       let beans = [];
-      // console.log(coffeeBeans);
-      for (let i = 0; i < coffeeBeans; i++) {
-        beans.push(
+      for (let i = 0; i < 4; i++) {
+        if(i<coffeeBeans){
+                  beans.push(
           <Image
             key={i}
             source={require("./../images/coffee-grain-fill.png")}
@@ -144,39 +98,49 @@ class Home extends React.Component {
             }}
           />
         );
+        }
+        else{
+          beans.push(<Image
+            key={i}
+            source={require("./../images/coffee-grain.png")}
+            style={{
+              height: 30,
+              width: 30,
+              flexDirection: "row",
+              marginLeft: 5
+            }}
+          />)
+        }
       }
-      // console.log("beans" + beans);
       return (
         <Card style={styles.cardItems}>
           <CardItem>
             <Left>
-              <Thumbnail source={{ uri: img }} />
-              <Body>
-                <Text style={styles.name}>{name}</Text>
-                <Text style={styles.price}>Price : {price}</Text>
-              </Body>
+              <Image source={{ uri: img }} style={styles.thumbNail}/>
             </Left>
-          </CardItem>
-          <CardItem>
-            <Left>
+            <Right>
+                <Text style={styles.name}>{name}</Text>
+                <Text style={styles.price}>${price}</Text>
+                <Right>
               <Button transparent textStyle={{ color: "#87838B" }}>
                 {beans}
               </Button>
-            </Left>
+            </Right>
+            </Right>
           </CardItem>
         </Card>
       );
     }
     let i = 0;
     return (
-      <Container>
+      <Container style={styles.top}>
+        <Text style={styles.title}>Roasters Near You</Text>
         <SafeAreaView style={styles.container}>
           <FlatList
             data={this.state.coffeeShops}
             renderItem={({ item }) => (
               <TouchableHighlight
                 onPress={() => {
-                  // console.log("ITEMS" + item);
                   this.goToCoffeeShop(item._id);
                 }}
               >
@@ -195,8 +159,8 @@ class Home extends React.Component {
           ></FlatList>
         </SafeAreaView>
         <TouchableOpacity style={styles.addButton} onPress={()=>Actions.addCoffeeShop()}>
-            <Text style={styles.plusText}>+</Text>
-          </TouchableOpacity>
+            <Text style={styles.plusText}>+ Roaster</Text>
+        </TouchableOpacity>
         <Footer>
           <FooterTab>
             <Button style={styles.navButton}>
@@ -234,6 +198,9 @@ const mapDispatch = dispatch => {
 export default connect(mapState, mapDispatch)(Home);
 
 const styles = StyleSheet.create({
+  top:{
+    marginTop: 40
+  },
   midText: {
     marginTop: "10%",
     marginRight: "auto",
@@ -249,7 +216,6 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    marginTop: "10%"
   },
   navButton: {
     backgroundColor: "#9A764E",
@@ -259,7 +225,7 @@ const styles = StyleSheet.create({
     color: "white"
   },
   addButton: {
-    width: 50,
+    width: 120,
     height: 50,
     position: 'absolute',
     right: '5%',
@@ -270,7 +236,7 @@ const styles = StyleSheet.create({
   plusText:{
     position: 'relative',
     color:'white', 
-    fontSize: 40, 
+    fontSize: 20, 
     marginRight: 'auto', 
     marginLeft: 'auto', 
     marginTop:"auto",
@@ -278,10 +244,23 @@ const styles = StyleSheet.create({
     color: 'white'
   },
   price:{
-    fontSize: 18
+    fontSize: 16,
+    color: 'green'
   },
   name:{
-    fontSize: 20,
+    fontSize: 18,
     fontWeight: 'bold'
+  },
+  thumbNail:{
+    width: '85%',
+    height: 100,
+    borderRadius:15,
+    padding: 0
+  },
+  title:{
+    fontSize: 25,
+    fontWeight: 'bold',
+    alignSelf: 'center',
+    padding: 10
   }
 });

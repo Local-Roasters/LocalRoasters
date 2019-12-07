@@ -1,6 +1,6 @@
 import React from 'react'
-import { StyleSheet,View, ScrollView, Text, TouchableOpacity, Image} from 'react-native';
-import { Container, Header, Content, Footer, FooterTab, Button, Icon, Form, Item, Picker, Card, CardItem, Body, Left } from 'native-base';
+import { StyleSheet,View, Text, Image} from 'react-native';
+import { Container, Content,  Button, Card, CardItem,  } from 'native-base';
 import { Actions } from 'react-native-router-flux';
 import Constants from 'expo-constants';
 import axios from 'axios';
