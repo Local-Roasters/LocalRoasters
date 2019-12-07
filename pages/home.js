@@ -22,6 +22,7 @@ import {
   Text,
   TouchableHighlight
 } from "react-native";
+
 import axios from "axios";
 
 import { Actions } from "react-native-router-flux";
@@ -30,6 +31,7 @@ import {
   storeCoffeeShopThunk,
   getCoffeeShopThunk
 } from "../store/utilities/coffeeShop";
+import Constants from 'expo-constants';
 
 const DATA = [
   {
@@ -69,18 +71,30 @@ class Home extends React.Component {
           price: 5,
           rating: 2
         }
-      ]
+      ],
+      userData: {}
     };
     this.goToCoffeeShop = this.goToCoffeeShop.bind(this);
   }
   async componentDidMount() {
+    let deviceId = Constants.installationId;
     try {
+      let user = await axios.get(`https://localroasters-api.herokuapp.com/users/?phoneID=${deviceId}`);
+      await console.log(user.data)
+      this._isMounted = true;
+      if (this._isMounted) {
+        this.setState({
+          userData: data
+        });
+      }
       await this.props.getCoffeeShop();
-      console.log("COFEEEEE" + this.state.coffeeShops);
       let { data } = await axios.get(
         `https://localroasters-api.herokuapp.com/roasters/?latitude=40.678833&longitude=-73.950676`
       );
-      await console.log(data);
+      data = data.filter(coffeeShop=>{
+        return coffeeShop.price == user.data.price 
+      })
+      console.log(data)
       this._isMounted = true;
       if (this._isMounted) {
         this.setState({
@@ -103,10 +117,10 @@ class Home extends React.Component {
   async goToCoffeeShop(id) {
     try {
       let select = this.state.coffeeShops.filter(a => a._id == id);
-      console.log("JERE");
-      console.log(this.state.coffeeShops);
-      console.log("RESU:T");
-      console.log(select[0]);
+      // console.log("JERE");
+      // console.log(this.state.coffeeShops);
+      // console.log("RESU:T");
+      // console.log(select[0]);
       await this.props.storeCoffeeShop(select[0]);
       Actions.coffeeShop();
     } catch (err) {
@@ -116,7 +130,7 @@ class Home extends React.Component {
   render() {
     function Item({ name, img, price, coffeeBeans }) {
       let beans = [];
-      console.log(coffeeBeans);
+      // console.log(coffeeBeans);
       for (let i = 0; i < coffeeBeans; i++) {
         beans.push(
           <Image
@@ -131,15 +145,15 @@ class Home extends React.Component {
           />
         );
       }
-      console.log("beans" + beans);
+      // console.log("beans" + beans);
       return (
         <Card style={styles.cardItems}>
           <CardItem>
             <Left>
               <Thumbnail source={{ uri: img }} />
               <Body>
-                <Text>{name}</Text>
-                <Text>Price : {price}</Text>
+                <Text style={styles.name}>{name}</Text>
+                <Text style={styles.price}>Price : {price}</Text>
               </Body>
             </Left>
           </CardItem>
@@ -162,7 +176,7 @@ class Home extends React.Component {
             renderItem={({ item }) => (
               <TouchableHighlight
                 onPress={() => {
-                  console.log("ITEMS" + item);
+                  // console.log("ITEMS" + item);
                   this.goToCoffeeShop(item._id);
                 }}
               >
@@ -262,5 +276,12 @@ const styles = StyleSheet.create({
     marginTop:"auto",
     marginBottom:"auto",
     color: 'white'
+  },
+  price:{
+    fontSize: 18
+  },
+  name:{
+    fontSize: 20,
+    fontWeight: 'bold'
   }
 });
