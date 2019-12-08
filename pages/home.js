@@ -1,11 +1,11 @@
 import React from "react";
-import {Container,CardItem,Thumbnail,Footer,FooterTab,Button,Card,Body,Left} from "native-base";
+import { Container, CardItem, Thumbnail, Footer, FooterTab, Button, Card, Body, Left, Right } from "native-base";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
-import {StyleSheet,TouchableOpacity,SafeAreaView,Image,FlatList,Text,TouchableHighlight} from "react-native";
+import { StyleSheet, TouchableOpacity, SafeAreaView, Image, FlatList, Text, TouchableHighlight, View} from "react-native";
 import axios from "axios";
 import { Actions } from "react-native-router-flux";
 import { connect } from "react-redux";
-import {storeCoffeeShopThunk,getCoffeeShopThunk} from "../store/utilities/coffeeShop";
+import { storeCoffeeShopThunk, getCoffeeShopThunk } from "../store/utilities/coffeeShop";
 
 class Home extends React.Component {
   constructor(props) {
@@ -45,7 +45,7 @@ class Home extends React.Component {
   async goToCoffeeShop(id) {
     try {
       let select = this.state.coffeeShops.filter(a => a._id == id);
-  
+
       await this.props.storeCoffeeShop(select[0]);
       Actions.coffeeShop();
     } catch (err) {
@@ -53,7 +53,7 @@ class Home extends React.Component {
     }
   }
   render() {
-    function Item({ name, img, price, coffeeBeans }) {
+    function Item({ name, img, price, coffeeBeans, sustainable }) {
       let beans = [];
       for (let i = 0; i < 5; i++) {
         let image = i < coffeeBeans ? require("./../images/coffee-grain-fill.png") : require("./../images/coffee-grain.png");
@@ -70,7 +70,6 @@ class Home extends React.Component {
           />
         );
       }
-      console.log("beans" + beans);
       return (
         <Card style={styles.cardItems}>
           <CardItem>
@@ -88,6 +87,9 @@ class Home extends React.Component {
                 {beans}
               </Button>
             </Left>
+            <Right>
+              {sustainable ? <Image source={require("./../images/leaf.png")} style={{height:30,width:30}}></Image>: <View></View>}
+            </Right>
           </CardItem>
         </Card>
       );
@@ -113,15 +115,16 @@ class Home extends React.Component {
                   img={item.img}
                   price={item.price}
                   coffeeBeans={item.rating}
+                  sustainable={item.sustainable}
                 />
               </TouchableHighlight>
             )}
             keyExtractor={item => item._id}
           ></FlatList>
         </SafeAreaView>
-        <TouchableOpacity style={styles.addButton} onPress={()=>Actions.addCoffeeShop()}>
-            <Text style={styles.plusText}>+</Text>
-          </TouchableOpacity>
+        <TouchableOpacity style={styles.addButton} onPress={() => Actions.addCoffeeShop()}>
+          <Text style={styles.plusText}>+</Text>
+        </TouchableOpacity>
         <Footer>
           <FooterTab>
             <Button style={styles.navButton}>
@@ -192,14 +195,14 @@ const styles = StyleSheet.create({
     backgroundColor: '#955E16',
     borderRadius: 30,
   },
-  plusText:{
+  plusText: {
     position: 'relative',
-    color:'white', 
-    fontSize: 40, 
-    marginRight: 'auto', 
-    marginLeft: 'auto', 
-    marginTop:"auto",
-    marginBottom:"auto",
+    color: 'white',
+    fontSize: 40,
+    marginRight: 'auto',
+    marginLeft: 'auto',
+    marginTop: "auto",
+    marginBottom: "auto",
     color: 'white'
   }
 });
