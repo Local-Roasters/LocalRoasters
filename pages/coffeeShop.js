@@ -2,6 +2,7 @@ import React from "react";
 import {Content,CardItem,Card,Body,Item} from "native-base";
 import { StyleSheet, Text, View, Image } from "react-native";
 import { connect } from "react-redux";
+import Ionicons from "react-native-vector-icons/Ionicons";
 import {getCoffeeShopThunk} from "../store/utilities/coffeeShop";
 
 class CoffeeShop extends React.Component {
@@ -76,15 +77,7 @@ class CoffeeShop extends React.Component {
         >
           {beanIcons}
           {sustainable && (
-            <Image
-              source={require("./../images/leaf.png")}
-              style={{
-                marginLeft: 90,
-                height: 30,
-                width: 30,
-                flexDirection: "row"
-              }}
-            ></Image>
+            <Ionicons name="ios-leaf" style={{ fontSize: 35, color: 'green', marginLeft: 90 }} />
           )}
         </Item>
         <Card style={styles.cardStyle}>

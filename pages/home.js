@@ -1,7 +1,8 @@
 import React from "react";
-import { Container, CardItem, Thumbnail, Footer, FooterTab, Button, Card, Body, Left, Right } from "native-base";
+import { Container, CardItem, Thumbnail, Footer, FooterTab, Button, Card, Body, Left, Right, Header } from "native-base";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
-import { StyleSheet, TouchableOpacity, SafeAreaView, Image, FlatList, Text, TouchableHighlight, View} from "react-native";
+import Ionicons from "react-native-vector-icons/Ionicons";
+import { StyleSheet, TouchableOpacity, SafeAreaView, Image, FlatList, Text, TouchableHighlight, View } from "react-native";
 import axios from "axios";
 import { Actions } from "react-native-router-flux";
 import { connect } from "react-redux";
@@ -11,8 +12,9 @@ class Home extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      coffeeShops: [
-      ]
+      coffeeShops: [],
+      sustainableCoffeeShops: [],
+      sustainableFilter: false,
     };
     this.goToCoffeeShop = this.goToCoffeeShop.bind(this);
   }
@@ -26,7 +28,8 @@ class Home extends React.Component {
       this._isMounted = true;
       if (this._isMounted) {
         this.setState({
-          coffeeShops: data
+          coffeeShops: data,
+          sustainableCoffeeShops: data.filter(coffeeShops => coffeeShops.sustainable === true)
         });
       }
     } catch (err) {
@@ -77,7 +80,7 @@ class Home extends React.Component {
               <Thumbnail source={{ uri: img }} />
               <Body>
                 <Text>{name}</Text>
-                <Text>Price : {price}</Text>
+                <Text>Price: ${price}</Text>
               </Body>
             </Left>
           </CardItem>
@@ -88,7 +91,7 @@ class Home extends React.Component {
               </Button>
             </Left>
             <Right>
-              {sustainable ? <Image source={require("./../images/leaf.png")} style={{height:30,width:30}}></Image>: <View></View>}
+              {sustainable ? <Ionicons name="ios-leaf" style={{ fontSize: 35, color: 'green' }} />: <View></View>}
             </Right>
           </CardItem>
         </Card>
@@ -97,9 +100,16 @@ class Home extends React.Component {
     let i = 0;
     return (
       <Container>
+        <Header style={{ backgroundColor: 'white' }}>
+          <Right>
+            <TouchableOpacity onPress={() => this.setState({sustainableFilter: !this.state.sustainableFilter})}>
+              <Ionicons name="ios-leaf" style={this.state.sustainableFilter === false ? { fontSize: 35 } :  { fontSize: 35, color: 'green' }}/> 
+            </TouchableOpacity>
+          </Right>
+        </Header>
         <SafeAreaView style={styles.container}>
           <FlatList
-            data={this.state.coffeeShops}
+            data={this.state.sustainableFilter === false? this.state.coffeeShops : this.state.sustainableCoffeeShops}
             renderItem={({ item }) => (
               <TouchableHighlight
                 onPress={() => {
@@ -177,7 +187,6 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    marginTop: "10%"
   },
   navButton: {
     backgroundColor: "#9A764E",
