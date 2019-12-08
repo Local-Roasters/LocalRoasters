@@ -45,10 +45,11 @@ class CoffeeShop extends React.Component {
       sustainable,
       img
     } = this.state.selectCoffeeShop;
-    for (let i = 0; i < rating; i++) {
+    for (let i = 0; i < 5; i++) {
+      let image = i < rating ? require("./../images/coffee-grain-fill.png") : require("./../images/coffee-grain.png");
       beanIcons.push(
         <Image
-          source={require("./../images/coffee-grain-fill.png")}
+          source={image}
           style={{ height: 30, width: 30, flexDirection: "row" }}
           key={i}
         />
@@ -89,7 +90,7 @@ class CoffeeShop extends React.Component {
         <Card style={styles.cardStyle}>
           <CardItem>
             <Body>
-              <Text>Price Per Cup</Text>
+              <Text>Price Per Cup: ${price}</Text>
               <Text></Text>
             </Body>
           </CardItem>
