@@ -1,5 +1,5 @@
 import React from "react";
-import {Text,StyleSheet,View} from "react-native";
+import {Text,StyleSheet,View, TouchableOpacity} from "react-native";
 import {Footer,FooterTab,Button} from "native-base";
 import MapView, { PROVIDER_GOOGLE } from "react-native-maps";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
@@ -43,10 +43,9 @@ class CoffeeMap extends React.Component {
             });
           }
           try {
+            console.log(currLoc)
             let { data } = await axios.get(
-              `https://localroasters-api.herokuapp.com/roasters/?latitude=${
-                location[`coords`][`latitude`]
-              }&longitude=${location[`coords`][`longitude`]}`
+              `https://localroasters-api.herokuapp.com/roasters/?latitude=${location[`coords`][`latitude`]}&longitude=${location[`coords`][`longitude`]}`
             );
             let pins = [];
             console.log(data);
@@ -121,7 +120,7 @@ class CoffeeMap extends React.Component {
             longitudeDelta: 0.08
           }}
           showsUserLocation={true}
-          showsMyLocationButton={true}
+          showsMyLocationButton={false}
           showsCompass={false}
           loadingEnabled={true}
           ref={ref => {
@@ -130,6 +129,9 @@ class CoffeeMap extends React.Component {
         >
           {this.state.pins}
         </MapView>
+        <TouchableOpacity style={styles.addButton} onPress={()=>Actions.addCoffeeShop()}>
+            <Text style={styles.plusText}>+</Text>
+          </TouchableOpacity>
         <Footer>
           <FooterTab>
             <Button style={styles.navButton} onPress={() => this.goToHome()}>
@@ -182,6 +184,25 @@ const styles = StyleSheet.create({
     left: 0,
     bottom: 0,
     right: 0
+  },
+  addButton: {
+    width: 50,
+    height: 50,
+    position: 'absolute',
+    top: '5%',
+    backgroundColor: '#955E16',
+    borderRadius: 30,
+    alignSelf: 'flex-end'
+  },
+  plusText:{
+    position: 'relative',
+    color:'white', 
+    fontSize: 40, 
+    marginRight: 'auto', 
+    marginLeft: 'auto', 
+    marginTop:"auto",
+    marginBottom:"auto",
+    color: 'white'
   }
 });
 
