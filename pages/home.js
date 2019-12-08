@@ -55,11 +55,12 @@ class Home extends React.Component {
   render() {
     function Item({ name, img, price, coffeeBeans }) {
       let beans = [];
-      for (let i = 0; i < coffeeBeans; i++) {
+      for (let i = 0; i < 5; i++) {
+        let image = i < coffeeBeans ? require("./../images/coffee-grain-fill.png") : require("./../images/coffee-grain.png");
         beans.push(
           <Image
             key={i}
-            source={require("./../images/coffee-grain-fill.png")}
+            source={image}
             style={{
               height: 30,
               width: 30,
