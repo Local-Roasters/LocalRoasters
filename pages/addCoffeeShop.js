@@ -10,6 +10,7 @@ import {
   selectCoffeeShopThunk
 } from "../store/utilities/coffeeShop";
 import useForm from "react-hook-form"
+import { Actions } from "react-native-router-flux";
 export default () => {
   const { register, setValue, handleSubmit } = useForm();
   const onSubmit = data => {
@@ -26,6 +27,7 @@ export default () => {
     }
     console.log(roaster)
     axios.post("https://localroasters-api.herokuapp.com/roasters", roaster).then(res=> console.log(res))
+    Actions.pop();
   };
   
   React.useEffect(() => {
@@ -95,6 +97,6 @@ const styles = StyleSheet.create({
     height: 40,
     padding: 10,
     borderRadius: 4,
-  }
+  },
 });
 
