@@ -3,7 +3,7 @@ import {Content,CardItem,Card,Body,Left,Item} from "native-base";
 import { StyleSheet, Text, View, TextInput,Button, Alert, Image, Picker } from "react-native";
 import { connect } from "react-redux";
 import axios from "axios"
-import Constants from 'expo-constants';
+// import Constants from 'expo-constants';
 
 import {
   getCoffeeShopThunk,
@@ -11,6 +11,7 @@ import {
 } from "../store/utilities/coffeeShop";
 import useForm from "react-hook-form"
 import { Actions } from "react-native-router-flux";
+// import { ALPN_ENABLED } from "constants";
 export default () => {
   const { register, setValue, handleSubmit } = useForm();
   const onSubmit = data => {
@@ -26,11 +27,16 @@ export default () => {
       rating:3
      
     }
-    console.log(roaster)
-    axios.post("https://localroasters-api.herokuapp.com/roasters", roaster).then(res=> console.log(res)).catch(err=>console.log(err))
-        // axios.get("localhost:5000/roasters").then(res=> console.log(res)).catch(err=>console.log(err.message))
-
-
+    // console.log(roaster)
+    axios.post("https://localroasters-api.herokuapp.com/roasters", roaster)
+    .then(res=> {
+        Alert.alert(res.data.msg)
+      // console.log(res)
+    })
+    .catch(err=>{
+      Alert.alert(res.data.msg)
+    console.log(err)}
+    )
     Actions.pop();
   };
   
