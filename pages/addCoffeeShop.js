@@ -21,17 +21,21 @@ export default () => {
         number:data.address.split(" ")[0], 
         zip:data.zipcode
       },
+      coffee:{roast:"Medium",roaster:"Bulk/Unknown"},
       price:data.price,
-      rating:3,
-      coffee:{roast:"med",}
+      rating:3
+     
     }
     console.log(roaster)
-    axios.post("https://localroasters-api.herokuapp.com/roasters", roaster).then(res=> console.log(res))
+    axios.post("https://localroasters-api.herokuapp.com/roasters", roaster).then(res=> console.log(res)).catch(err=>console.log(err))
+        // axios.get("localhost:5000/roasters").then(res=> console.log(res)).catch(err=>console.log(err.message))
+
+
     Actions.pop();
   };
   
   React.useEffect(() => {
-    register({ name: 'name'}, { required: true });
+    register({name: 'name'}, { required: true });
     register({name: 'price'}, {required:true})
     register({name: 'rating'}, )
     register({name: 'address'}, {required:true})
@@ -44,19 +48,21 @@ export default () => {
       <TextInput
         style={styles.input}
         onChangeText={text => setValue('name', text, true)}
+        placeholder={"eg: Jack's Coffee Co"}
       />
       <Text style={styles.label}>Address</Text>
       <TextInput
         style={styles.input}
         onChangeText={text => setValue('address', text)}
-        placeholder={"ex: 123 Main St"}
+        placeholder={"eg: 123 Main St"}
       />
    <Text style={styles.label}>Price Per Cup</Text>
       <TextInput
         style={styles.input}
         onChangeText={text => setValue('price', text)}
-        placeholder={"Price for sm coffee. ie 3 or 2.5"}
+        placeholder={"Price for sm coffee. eg 3 or 2.5"}
       />
+      
       <Text style={styles.label}>Zipcode</Text>
       <TextInput
         style={styles.input}

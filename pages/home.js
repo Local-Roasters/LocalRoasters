@@ -19,19 +19,42 @@ class Home extends React.Component {
     this.goToCoffeeShop = this.goToCoffeeShop.bind(this);
   }
   async componentDidMount() {
+
+
+   
+          
+
+
+
+
     try {
       await this.props.getCoffeeShop();
-      let { data } = await axios.get(
-        `https://localroasters-api.herokuapp.com/roasters/?latitude=40.678833&longitude=-73.950676`
-      );
-      await console.log(data);
-      this._isMounted = true;
-      if (this._isMounted) {
-        this.setState({
-          coffeeShops: data,
-          sustainableCoffeeShops: data.filter(coffeeShops => coffeeShops.sustainable === true)
-        });
-      }
+      // let { data } = await axios.get(
+      //   `https://localroasters-api.herokuapp.com/roasters/?latitude=40.678833&longitude=-73.950676`
+      // );
+
+      try {
+        await navigator.geolocation.getCurrentPosition(
+          async position => {
+            const obj = JSON.stringify(position);
+            const location = JSON.parse(obj);          
+              let { data } = await axios.get(
+                `https://localroasters-api.herokuapp.com/roasters/?latitude=${location[`coords`][`latitude`]}&longitude=${location[`coords`][`longitude`]}`
+              );
+              await console.log(data);
+              this._isMounted = true;
+              if (this._isMounted) {
+              this.setState({
+                coffeeShops: data,
+                sustainableCoffeeShops: data.filter(coffeeShops => coffeeShops.sustainable === true)
+              });
+              }
+            })
+  
+              }catch(err){
+                console.log(err)
+              }
+      
     } catch (err) {
       console.log(err);
     }
@@ -113,7 +136,6 @@ class Home extends React.Component {
             renderItem={({ item }) => (
               <TouchableHighlight
                 onPress={() => {
-                  console.log("ITEMS" + item);
                   this.goToCoffeeShop(item._id);
                 }}
               >
