@@ -1,5 +1,5 @@
 import React from 'react';import { Container, Header, Content, Footer, FooterTab, Button, Form, Item, Picker, Card, CardItem, Body, Left } from 'native-base';
-import { StyleSheet, Text, View,Image } from 'react-native';
+import { StyleSheet, Text, View,Image, Alert } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { Actions } from 'react-native-router-flux';
 import Constants from 'expo-constants';
@@ -111,7 +111,8 @@ export default class Profile extends React.Component {
 			"price": this.state.price
 		}
 		console.log(data)
-		axios.put(`https://localroasters-api.herokuapp.com/users/`,data);
+		axios.put(`https://localroasters-api.herokuapp.com/users/`,data).then(res=>Alert.alert("Updated Roast Preferences!"))
+		
 	}
 	goToHome() {
 		Actions.home()

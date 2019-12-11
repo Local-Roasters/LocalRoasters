@@ -2,6 +2,7 @@ import React from "react";
 import {Content,CardItem,Card,Body,Item} from "native-base";
 import { StyleSheet, Text, View, Image } from "react-native";
 import { connect } from "react-redux";
+import Ionicons from "react-native-vector-icons/Ionicons";
 import {getCoffeeShopThunk} from "../store/utilities/coffeeShop";
 
 class CoffeeShop extends React.Component {
@@ -9,7 +10,9 @@ class CoffeeShop extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      selectCoffeeShop: {}
+      selectCoffeeShop: {},
+      roast:'',
+      roaster:''
     };
   }
 
@@ -22,7 +25,9 @@ class CoffeeShop extends React.Component {
       console.log(this.props.coffeeShop);
       if (this._isMounted) {
         this.setState({
-          selectCoffeeShop: this.props.coffeeShop
+          selectCoffeeShop: this.props.coffeeShop,
+          roast:this.props.coffeeShop.coffee.roast,
+          roaster: this.props.coffeeShop.coffee.roaster
         });
       }
 
@@ -45,10 +50,13 @@ class CoffeeShop extends React.Component {
       sustainable,
       img
     } = this.state.selectCoffeeShop;
-    for (let i = 0; i < rating; i++) {
+    let roast = this.state.roast
+    let roaster = this.state.roaster
+    for (let i = 0; i < 5; i++) {
+      let image = i < rating ? require("./../images/coffee-grain-fill.png") : require("./../images/coffee-grain.png");
       beanIcons.push(
         <Image
-          source={require("./../images/coffee-grain-fill.png")}
+          source={image}
           style={{ height: 30, width: 30, flexDirection: "row" }}
           key={i}
         />
@@ -75,22 +83,18 @@ class CoffeeShop extends React.Component {
         >
           {beanIcons}
           {sustainable && (
-            <Image
-              source={require("./../images/leaf.png")}
-              style={{
-                marginLeft: 90,
-                height: 30,
-                width: 30,
-                flexDirection: "row"
-              }}
-            ></Image>
+            <Ionicons name="ios-leaf" style={{ fontSize: 35, color: 'green', marginLeft: 90 }} />
           )}
         </Item>
         <Card style={styles.cardStyle}>
           <CardItem>
             <Body>
-              <Text>Price Per Cup</Text>
-              <Text></Text>
+              <Text style={{fontSize:20}}>Roast: {roast} </Text>
+              <Text style={{fontSize:20}}>Roaster: {roaster}</Text>
+              {sustainable && <Text style={{fontSize:20}}>Sustainably Sourced: <Ionicons name="md-leaf" style={{ fontSize: 20, color: 'green', marginLeft: 90 }} /> </Text>}
+              {sustainable && 
+              <Text>Sustainably sourced beans mean you can sip your coffee knowing you support fair-trade, traceable, sustainable beans!</Text> 
+               }
             </Body>
           </CardItem>
         </Card>

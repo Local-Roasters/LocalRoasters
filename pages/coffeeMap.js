@@ -43,10 +43,9 @@ class CoffeeMap extends React.Component {
             });
           }
           try {
+            console.log(currLoc)
             let { data } = await axios.get(
-              `https://localroasters-api.herokuapp.com/roasters/?latitude=${
-                location[`coords`][`latitude`]
-              }&longitude=${location[`coords`][`longitude`]}`
+              `https://localroasters-api.herokuapp.com/roasters/?latitude=${location[`coords`][`latitude`]}&longitude=${location[`coords`][`longitude`]}`
             );
             let pins = [];
             console.log(data);
@@ -121,7 +120,7 @@ class CoffeeMap extends React.Component {
             longitudeDelta: 0.08
           }}
           showsUserLocation={true}
-          showsMyLocationButton={true}
+          showsMyLocationButton={false}
           showsCompass={false}
           loadingEnabled={true}
           ref={ref => {
@@ -193,7 +192,7 @@ const styles = StyleSheet.create({
     right: '5%',
     bottom: '10%',
     backgroundColor: '#955E16',
-    borderRadius: 30,
+    borderRadius: 30
   },
   plusText:{
     position: 'relative',
