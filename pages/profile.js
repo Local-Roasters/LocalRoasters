@@ -25,7 +25,7 @@ export default class Profile extends React.Component {
 		let deviceId = Constants.installationId;
 		try{
 			let {data} = await axios.get(`https://localroasters-api.herokuapp.com/users/?phoneID=${deviceId}`);
-			data.price === 1 ? this.setState({money1:2}) : data.price === 2? this.setState({money2:2}) : this.setState({money3:2});
+			data.price === 2 ? this.setState({money1:2}) : data.price === 4? this.setState({money2:2}) : this.setState({money3:2});
 			data.coffee.roast === "Light"? this.setState({seg1:2}) : data.coffee.roast === "Medium"? this.setState({seg2:2}) : this.setState({seg3:2});
 			this.setState({
 				coffee:data.coffee.roast,
@@ -83,7 +83,7 @@ export default class Profile extends React.Component {
 		else {
 			this.setState({ money1: 2, money2: 1, money3: 1 })
 		}
-		this.setState({ price: 1 })
+		this.setState({ price: 2 })
 	}
 	onChangeMoney2() {
 		if (this.state.money2 == 2) {
@@ -92,7 +92,7 @@ export default class Profile extends React.Component {
 		else {
 			this.setState({ money1: 1, money2: 2, money3: 1 })
 		}
-		this.setState({ price: 2 })
+		this.setState({ price: 4 })
 	}
 	onChangeMoney3() {
 		if (this.state.money3 == 2) {
@@ -101,7 +101,7 @@ export default class Profile extends React.Component {
 		else {
 			this.setState({ money1: 1, money2: 1, money3: 2 })
 		}
-		this.setState({ price: 3 })
+		this.setState({ price: 6 })
 	}
 
 	onSubmit() {
@@ -131,7 +131,7 @@ export default class Profile extends React.Component {
 						<Text style={styles.idText}>ID: 0571095730</Text>
 					</Item>
 					<Text style={styles.title}>Your Roast</Text>
-					<Card >
+					<Card style={styles.cards}>
 						<CardItem style={styles.dollar, {
 							backgroundColor: this.state.seg1 === 1 ? "white" : this.state.seg1 === 2 ? "#D0B99B" : undefined,
 							borderColor: "red"
@@ -231,7 +231,10 @@ const styles = StyleSheet.create({
 		justifyContent: 'center'
 	},
 	inline: {
-		flexDirection: 'row'
+		flexDirection: 'row',
+		width: '80%',
+		marginRight: 'auto',
+		marginLeft: 'auto'
 	},
 	signUpButton: {
 		padding: 10,
@@ -246,4 +249,10 @@ const styles = StyleSheet.create({
 		marginLeft: 'auto',
 		color: 'white'
 	},
+	cards:{
+		width: '80%',
+		marginRight: 'auto',
+		marginLeft: 'auto'
+		
+	}
 })

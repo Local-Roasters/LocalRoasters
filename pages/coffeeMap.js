@@ -130,8 +130,8 @@ class CoffeeMap extends React.Component {
           {this.state.pins}
         </MapView>
         <TouchableOpacity style={styles.addButton} onPress={()=>Actions.addCoffeeShop()}>
-            <Text style={styles.plusText}>+</Text>
-          </TouchableOpacity>
+            <Text style={styles.plusText}>+ Roaster</Text>
+        </TouchableOpacity>
         <Footer>
           <FooterTab>
             <Button style={styles.navButton} onPress={() => this.goToHome()}>
@@ -186,18 +186,18 @@ const styles = StyleSheet.create({
     right: 0
   },
   addButton: {
-    width: 50,
+    width: 120,
     height: 50,
     position: 'absolute',
-    top: '5%',
+    right: '5%',
+    bottom: '10%',
     backgroundColor: '#955E16',
-    borderRadius: 30,
-    alignSelf: 'flex-end'
+    borderRadius: 30
   },
   plusText:{
     position: 'relative',
     color:'white', 
-    fontSize: 40, 
+    fontSize: 20, 
     marginRight: 'auto', 
     marginLeft: 'auto', 
     marginTop:"auto",
