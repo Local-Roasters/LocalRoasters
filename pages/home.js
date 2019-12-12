@@ -1,5 +1,5 @@
 import React from "react";
-import {Container,CardItem,Thumbnail,Footer,FooterTab,Button,Card,Body,Left, Right,Header} from "native-base";
+import {Container,CardItem,Footer,FooterTab,Button,Card,Body,Left, Right,Header} from "native-base";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { StyleSheet, TouchableOpacity, SafeAreaView, Image, FlatList, Text, TouchableHighlight, View  } from "react-native";
@@ -26,9 +26,11 @@ class Home extends React.Component {
         await navigator.geolocation.getCurrentPosition(
           async position => {
             const obj = JSON.stringify(position);
-            const location = JSON.parse(obj);          
+            const location = JSON.parse(obj);
+            console.log(location)          
               let { data } = await axios.get(
                 `https://localroasters-api.herokuapp.com/roasters/?latitude=${location[`coords`][`latitude`]}&longitude=${location[`coords`][`longitude`]}`
+
               );
               await console.log(data);
               this._isMounted = true;
@@ -60,7 +62,6 @@ class Home extends React.Component {
   async goToCoffeeShop(id) {
     try {
       let select = this.state.coffeeShops.filter(a => a._id == id);
-
       await this.props.storeCoffeeShop(select[0]);
       Actions.coffeeShop();
     } catch (err) {
@@ -90,11 +91,6 @@ class Home extends React.Component {
           <CardItem>
             <Left>
               <Image source={{ uri: img }} style={styles.thumbNail}/>
-               {/* <Thumbnail source={{ uri: img }} /> */}
-               {/* <Body>
-                 <Text>{name}</Text>
-                 <Text>Price: ${price}</Text>
-               </Body> */}
             </Left>
             <Right>
                 <Text style={styles.name}>{name}</Text>
@@ -111,7 +107,7 @@ class Home extends React.Component {
     let i = 0;
     return (
       <Container>
-        <Header style={{ backgroundColor: 'white' }}>
+        <Header style={{ backgroundColor: 'white', marginTop:'7%' }}>
         <Text style={styles.title}>Roasters Near You</Text>
           <Right>
             <TouchableOpacity onPress={() => this.setState({sustainableFilter: !this.state.sustainableFilter})}>
@@ -144,7 +140,7 @@ class Home extends React.Component {
           ></FlatList>
         </SafeAreaView>
         <TouchableOpacity style={styles.addButton} onPress={() => Actions.addCoffeeShop()}>
-          <Text style={styles.plusText}>+</Text>
+          <Text style={styles.plusText}>+ Roaster</Text>
         </TouchableOpacity>
         <Footer>
           <FooterTab>
@@ -207,7 +203,7 @@ const styles = StyleSheet.create({
     color: "white"
   },
   addButton: {
-    width: 50,
+    width: 120,
     height: 50,
     position: 'absolute',
     right: '5%',
@@ -218,7 +214,7 @@ const styles = StyleSheet.create({
   plusText: {
     position: 'relative',
     color: 'white',
-    fontSize: 40,
+    fontSize: 20,
     marginRight: 'auto',
     marginLeft: 'auto',
     marginTop: "auto",
