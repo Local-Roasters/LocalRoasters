@@ -7,6 +7,7 @@ import axios from "axios";
 import { Actions } from "react-native-router-flux";
 import { connect } from "react-redux";
 import { storeCoffeeShopThunk, getCoffeeShopThunk } from "../store/utilities/coffeeShop";
+import { getUserPrefThunk } from "../store/utilities/userPref";
 
 class Home extends React.Component {
   constructor(props) {
@@ -19,16 +20,16 @@ class Home extends React.Component {
     this.goToCoffeeShop = this.goToCoffeeShop.bind(this);
   }
   async componentDidMount() {
+    this._isMounted = true;
+    await this.props.getUserPref();
     try {
       await this.props.getCoffeeShop();
       let { data } = await axios.get(
         `https://localroasters-api.herokuapp.com/roasters/?latitude=40.678833&longitude=-73.950676`
       );
-      await console.log(data);
-      this._isMounted = true;
       if (this._isMounted) {
         this.setState({
-          coffeeShops: data,
+          coffeeShops: data.filter(coffeeShops => coffeeShops.coffee.roast == this.props.userPref.coffee.roast || coffeeShops.price <= this.props.userPref.price),
           sustainableCoffeeShops: data.filter(coffeeShops => coffeeShops.sustainable === true)
         });
       }
@@ -91,7 +92,7 @@ class Home extends React.Component {
               </Button>
             </Left>
             <Right>
-              {sustainable ? <Ionicons name="ios-leaf" style={{ fontSize: 35, color: 'green' }} />: <View></View>}
+              {sustainable ? <Ionicons name="ios-leaf" style={{ fontSize: 35, color: 'green' }} /> : <View></View>}
             </Right>
           </CardItem>
         </Card>
@@ -102,18 +103,17 @@ class Home extends React.Component {
       <Container>
         <Header style={{ backgroundColor: 'white' }}>
           <Right>
-            <TouchableOpacity onPress={() => this.setState({sustainableFilter: !this.state.sustainableFilter})}>
-              <Ionicons name="ios-leaf" style={this.state.sustainableFilter === false ? { fontSize: 35 } :  { fontSize: 35, color: 'green' }}/> 
+            <TouchableOpacity onPress={() => this.setState({ sustainableFilter: !this.state.sustainableFilter })}>
+              <Ionicons name="ios-leaf" style={this.state.sustainableFilter === false ? { fontSize: 35 } : { fontSize: 35, color: 'green' }} />
             </TouchableOpacity>
           </Right>
         </Header>
         <SafeAreaView style={styles.container}>
           <FlatList
-            data={this.state.sustainableFilter === false? this.state.coffeeShops : this.state.sustainableCoffeeShops}
+            data={this.state.sustainableFilter === false ? this.state.coffeeShops : this.state.sustainableCoffeeShops}
             renderItem={({ item }) => (
               <TouchableHighlight
                 onPress={() => {
-                  console.log("ITEMS" + item);
                   this.goToCoffeeShop(item._id);
                 }}
               >
@@ -158,14 +158,16 @@ class Home extends React.Component {
 
 const mapState = state => {
   return {
-    coffeeShop: state.coffeeShops
+    coffeeShop: state.coffeeShops,
+    userPref: state.userPref
   };
 };
 
 const mapDispatch = dispatch => {
   return {
     storeCoffeeShop: coffeeShop => dispatch(storeCoffeeShopThunk(coffeeShop)),
-    getCoffeeShop: () => dispatch(getCoffeeShopThunk())
+    getCoffeeShop: () => dispatch(getCoffeeShopThunk()),
+    getUserPref: () => dispatch(getUserPrefThunk())
   };
 };
 
