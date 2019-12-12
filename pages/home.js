@@ -1,8 +1,8 @@
 import React from "react";
-import {Container,CardItem,Thumbnail,Footer,FooterTab,Button,Card,Body,Left, Right} from "native-base";
+import {Container,CardItem,Thumbnail,Footer,FooterTab,Button,Card,Body,Left, Right,Header} from "native-base";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import Ionicons from "react-native-vector-icons/Ionicons";
-import { StyleSheet, TouchableOpacity, SafeAreaView, Image, FlatList, Text, TouchableHighlight, View } from "react-native";
+import { StyleSheet, TouchableOpacity, SafeAreaView, Image, FlatList, Text, TouchableHighlight, View  } from "react-native";
 import axios from "axios";
 import { Actions } from "react-native-router-flux";
 import { connect } from "react-redux";
@@ -16,7 +16,7 @@ class Home extends React.Component {
     super(props);
     this.state = {
       coffeeShops: [],
-      userData: {}
+      userData: {},
       sustainableCoffeeShops: [],
       sustainableFilter: false,
     };
@@ -109,19 +109,19 @@ class Home extends React.Component {
             }}
           />
         );
-        }
-        else{
-          beans.push(<Image
-            key={i}
-            source={require("./../images/coffee-grain.png")}
-            style={{
-              height: 30,
-              width: 30,
-              flexDirection: "row",
-              marginLeft: 5
-            }}
-          />)
-        }
+        // }
+        // else{
+        //   beans.push(<Image
+        //     key={i}
+        //     source={require("./../images/coffee-grain.png")}
+        //     style={{
+        //       height: 30,
+        //       width: 30,
+        //       flexDirection: "row",
+        //       marginLeft: 5
+        //     }}
+        //   />)
+        // }
       }
       return (
         <Card style={styles.cardItems}>
@@ -137,7 +137,6 @@ class Home extends React.Component {
             <Right>
                 <Text style={styles.name}>{name}</Text>
                 <Text style={styles.price}>${price}</Text>
-                <Right>
               <Button transparent textStyle={{ color: "#87838B" }}>
                 {beans}
               </Button>
@@ -152,7 +151,7 @@ class Home extends React.Component {
     return (
 
       <Container>
-//       <Text style={styles.title}>Roasters Near You</Text>
+       <Text style={styles.title}>Roasters Near You</Text>
         <Header style={{ backgroundColor: 'white' }}>
           <Right>
             <TouchableOpacity onPress={() => this.setState({sustainableFilter: !this.state.sustainableFilter})}>
