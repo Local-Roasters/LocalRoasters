@@ -90,8 +90,8 @@ class Home extends React.Component {
             <Right>
                 <Text style={styles.name}>{name}</Text>
                 <Text style={styles.price}>${price}</Text>
-                <Button transparent textStyle={{ color: "#87838B" }}>
-                {sustainable ? <Ionicons name="ios-leaf" style={{ fontSize: 35, color: 'green' }} />: <View></View>}{beans}
+                <Button transparent textStyle={{color: "#87838B"}}>
+                {sustainable ? <Ionicons name="ios-leaf" style={{fontSize: 35, color: 'green' }} />: <View></View>}{beans}
                 </Button>
             </Right>
           </CardItem>
