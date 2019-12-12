@@ -10,7 +10,9 @@ class CoffeeShop extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      selectCoffeeShop: {}
+      selectCoffeeShop: {},
+      roast:'',
+      roaster:''
     };
   }
 
@@ -23,7 +25,9 @@ class CoffeeShop extends React.Component {
       console.log(this.props.coffeeShop);
       if (this._isMounted) {
         this.setState({
-          selectCoffeeShop: this.props.coffeeShop
+          selectCoffeeShop: this.props.coffeeShop,
+          roast:this.props.coffeeShop.coffee.roast,
+          roaster: this.props.coffeeShop.coffee.roaster
         });
       }
 
@@ -46,6 +50,8 @@ class CoffeeShop extends React.Component {
       sustainable,
       img
     } = this.state.selectCoffeeShop;
+    let roast = this.state.roast
+    let roaster = this.state.roaster
     for (let i = 0; i < 5; i++) {
       let image = i < rating ? require("./../images/coffee-grain-fill.png") : require("./../images/coffee-grain.png");
       beanIcons.push(
@@ -83,8 +89,12 @@ class CoffeeShop extends React.Component {
         <Card style={styles.cardStyle}>
           <CardItem>
             <Body>
-              <Text>Price Per Cup: ${price}</Text>
-              <Text></Text>
+              <Text style={{fontSize:20}}>Roast: {roast} </Text>
+              <Text style={{fontSize:20}}>Roaster: {roaster}</Text>
+              {sustainable && <Text style={{fontSize:20}}>Sustainably Sourced: <Ionicons name="md-leaf" style={{ fontSize: 20, color: 'green', marginLeft: 90 }} /> </Text>}
+              {sustainable && 
+              <Text>Sustainably sourced beans mean you can sip your coffee knowing you support fair-trade, traceable, sustainable beans!</Text> 
+               }
             </Body>
           </CardItem>
         </Card>

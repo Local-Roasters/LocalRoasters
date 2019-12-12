@@ -3,7 +3,7 @@ import {Content,CardItem,Card,Body,Left,Item} from "native-base";
 import { StyleSheet, Text, View, TextInput,Button, Alert, Image, Picker } from "react-native";
 import { connect } from "react-redux";
 import axios from "axios"
-import Constants from 'expo-constants';
+// import Constants from 'expo-constants';
 
 import {
   getCoffeeShopThunk,
@@ -11,6 +11,7 @@ import {
 } from "../store/utilities/coffeeShop";
 import useForm from "react-hook-form"
 import { Actions } from "react-native-router-flux";
+// import { ALPN_ENABLED } from "constants";
 export default () => {
   const { register, setValue, handleSubmit } = useForm();
   const onSubmit = data => {
@@ -21,17 +22,26 @@ export default () => {
         number:data.address.split(" ")[0], 
         zip:data.zipcode
       },
+      coffee:{roast:"Medium",roaster:"Bulk/Unknown"},
       price:data.price,
-      rating:3,
-      coffee:{roast:"med",}
+      rating:3
+     
     }
-    console.log(roaster)
-    axios.post("https://localroasters-api.herokuapp.com/roasters", roaster).then(res=> console.log(res))
+    // console.log(roaster)
+    axios.post("https://localroasters-api.herokuapp.com/roasters", roaster)
+    .then(res=> {
+        Alert.alert(res.data.msg)
+      // console.log(res)
+    })
+    .catch(err=>{
+      Alert.alert(res.data.msg)
+    console.log(err)}
+    )
     Actions.pop();
   };
   
   React.useEffect(() => {
-    register({ name: 'name'}, { required: true });
+    register({name: 'name'}, { required: true });
     register({name: 'price'}, {required:true})
     register({name: 'rating'}, )
     register({name: 'address'}, {required:true})
@@ -44,19 +54,21 @@ export default () => {
       <TextInput
         style={styles.input}
         onChangeText={text => setValue('name', text, true)}
+        placeholder={"eg: Jack's Coffee Co"}
       />
       <Text style={styles.label}>Address</Text>
       <TextInput
         style={styles.input}
         onChangeText={text => setValue('address', text)}
-        placeholder={"ex: 123 Main St"}
+        placeholder={"eg: 123 Main St"}
       />
    <Text style={styles.label}>Price Per Cup</Text>
       <TextInput
         style={styles.input}
         onChangeText={text => setValue('price', text)}
-        placeholder={"Price for sm coffee. ie 3 or 2.5"}
+        placeholder={"Price for sm coffee. eg 3 or 2.5"}
       />
+      
       <Text style={styles.label}>Zipcode</Text>
       <TextInput
         style={styles.input}

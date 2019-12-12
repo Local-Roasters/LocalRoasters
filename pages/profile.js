@@ -1,5 +1,5 @@
-import React from 'react'; import { Container, Header, Content, Footer, FooterTab, Button, Form, Item, Picker, Card, CardItem, Body, Left } from 'native-base';
-import { StyleSheet, Text, View, Image } from 'react-native';
+import React from 'react';import { Container, Header, Content, Footer, FooterTab, Button, Form, Item, Picker, Card, CardItem, Body, Left } from 'native-base';
+import { StyleSheet, Text, View,Image, Alert } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { Actions } from 'react-native-router-flux';
 import { connect } from "react-redux";
@@ -112,8 +112,8 @@ class Profile extends React.Component {
 			"coffee": { "roast": this.state.coffee },
 			"price": this.state.price
 		}
-		this.props.storeUserPref(data)
-		axios.put(`https://localroasters-api.herokuapp.com/users/`, data);
+		console.log(data)
+		axios.put(`https://localroasters-api.herokuapp.com/users/`,data).then(res=>Alert.alert("Updated Roast Preferences!"))
 	}
 	goToHome() {
 		Actions.home()
