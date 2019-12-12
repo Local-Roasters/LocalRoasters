@@ -1,8 +1,8 @@
 import React from "react";
-import { Container, CardItem, Thumbnail, Footer, FooterTab, Button, Card, Body, Left, Right, Header } from "native-base";
+import {Container,CardItem,Thumbnail,Footer,FooterTab,Button,Card,Body,Left, Right,Header} from "native-base";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import Ionicons from "react-native-vector-icons/Ionicons";
-import { StyleSheet, TouchableOpacity, SafeAreaView, Image, FlatList, Text, TouchableHighlight, View } from "react-native";
+import { StyleSheet, TouchableOpacity, SafeAreaView, Image, FlatList, Text, TouchableHighlight, View  } from "react-native";
 import axios from "axios";
 import { Actions } from "react-native-router-flux";
 import { connect } from "react-redux";
@@ -13,26 +13,15 @@ class Home extends React.Component {
     super(props);
     this.state = {
       coffeeShops: [],
+      userData: {},
       sustainableCoffeeShops: [],
       sustainableFilter: false,
     };
     this.goToCoffeeShop = this.goToCoffeeShop.bind(this);
   }
   async componentDidMount() {
-
-
-   
-          
-
-
-
-
     try {
       await this.props.getCoffeeShop();
-      // let { data } = await axios.get(
-      //   `https://localroasters-api.herokuapp.com/roasters/?latitude=40.678833&longitude=-73.950676`
-      // );
-
       try {
         await navigator.geolocation.getCurrentPosition(
           async position => {
@@ -100,20 +89,19 @@ class Home extends React.Component {
         <Card style={styles.cardItems}>
           <CardItem>
             <Left>
-              <Thumbnail source={{ uri: img }} />
-              <Body>
-                <Text>{name}</Text>
-                <Text>Price: ${price}</Text>
-              </Body>
-            </Left>
-          </CardItem>
-          <CardItem>
-            <Left>
-              <Button transparent textStyle={{ color: "#87838B" }}>
-                {beans}
-              </Button>
+              <Image source={{ uri: img }} style={styles.thumbNail}/>
+               <Thumbnail source={{ uri: img }} />
+               <Body>
+                 <Text>{name}</Text>
+                 <Text>Price: ${price}</Text>
+               </Body>
             </Left>
             <Right>
+                <Text style={styles.name}>{name}</Text>
+                <Text style={styles.price}>${price}</Text>
+                <Button transparent textStyle={{ color: "#87838B" }}>
+                {beans}
+                </Button>
               {sustainable ? <Ionicons name="ios-leaf" style={{ fontSize: 35, color: 'green' }} />: <View></View>}
             </Right>
           </CardItem>
@@ -123,6 +111,7 @@ class Home extends React.Component {
     let i = 0;
     return (
       <Container>
+       <Text style={styles.title}>Roasters Near You</Text>
         <Header style={{ backgroundColor: 'white' }}>
           <Right>
             <TouchableOpacity onPress={() => this.setState({sustainableFilter: !this.state.sustainableFilter})}>
