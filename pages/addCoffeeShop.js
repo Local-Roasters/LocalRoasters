@@ -1,6 +1,6 @@
 import React from "react";
-import {Content,CardItem,Card,Body,Left,Item, Button} from "native-base";
-import { StyleSheet, Text, View, TextInput, Alert, Image, Picker } from "react-native";
+import {Content,CardItem,Card,Body,Left,Item} from "native-base";
+import { StyleSheet, Text, View, TextInput,Button, Alert, Image, Picker } from "react-native";
 import { connect } from "react-redux";
 import axios from "axios"
 // import Constants from 'expo-constants';
@@ -50,7 +50,6 @@ export default () => {
 
   return (
     <View style={styles.container}>
-        <Text style={styles.title}>Add Roaster</Text>
       <Text style={styles.label}>Roaster Name</Text>
       <TextInput
         style={styles.input}
@@ -77,11 +76,9 @@ export default () => {
       />
       
 
-
-        <Button style={styles.button} onPress={handleSubmit(onSubmit)} >
-          <Text style={styles.buttonTexts}>Submit</Text>
-        </Button>
-      
+      <View style={styles.button}>
+        <Button style={styles.buttonInner} color title="Submit" onPress={handleSubmit(onSubmit)} />
+      </View>
     </View>
   );
 }
@@ -90,22 +87,14 @@ const styles = StyleSheet.create({
   label: {
     color: 'white',
     margin: 20,
-    marginLeft: "10%"
+    marginLeft: 0
   },
   button :{
     marginTop: 40,
     color: 'white',
     height: 40,
-    backgroundColor: '#976234',
-    borderRadius: 4,
-    width: '50%',
-    marginRight:'auto',
-    marginLeft: 'auto'
-  },
-  buttonTexts:{
-    color: 'white',
-    marginRight:'auto',
-    marginLeft: 'auto'
+    backgroundColor: '#9A764E',
+    borderRadius: 4
   },
   container: {
     flex: 1,
@@ -116,20 +105,10 @@ const styles = StyleSheet.create({
   },
   input: {
     backgroundColor: 'white',
+
     height: 40,
     padding: 10,
     borderRadius: 4,
-    width: "80%",
-    marginRight:'auto',
-    marginLeft: 'auto'
   },
-  title:{
-    fontSize: 30,
-    padding: 10,
-    marginRight:'auto',
-    marginLeft: 'auto', 
-    color: 'white'
-  }
-
 });
 
