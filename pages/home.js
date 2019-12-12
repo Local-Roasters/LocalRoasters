@@ -29,8 +29,15 @@ class Home extends React.Component {
         `https://localroasters-api.herokuapp.com/roasters/?latitude=40.678833&longitude=-73.950676`
       );
       if (this._isMounted) {
+        let filtered;
+        if(this.props.userPref.price<6){
+          filtered=data.filter(coffeeShops => coffeeShops.price <= this.props.userPref.price)
+        }else{
+          filtered=data.filter(coffeeShops => coffeeShops.price >= this.props.userPref.price)
+        }
+        filtered=filtered.filter(coffeeShops => coffeeShops.coffee.roast == this.props.userPref.coffee.roast)
         this.setState({
-          coffeeShops: data.filter(coffeeShops => coffeeShops.coffee.roast == this.props.userPref.coffee.roast || coffeeShops.price <= this.props.userPref.price),
+          coffeeShops: filtered,
           sustainableCoffeeShops: data.filter(coffeeShops => coffeeShops.sustainable === true)
         });
       }
@@ -66,8 +73,8 @@ class Home extends React.Component {
             key={i}
             source={image}
             style={{
-              height: 30,
-              width: 30,
+              height: 23,
+              width: 23,
               flexDirection: "row",
               marginLeft: 5
             }}
@@ -84,7 +91,7 @@ class Home extends React.Component {
                 <Text style={styles.name}>{name}</Text>
                 <Text style={styles.price}>${price}</Text>
                 <Button transparent textStyle={{ color: "#87838B" }}>
-                {beans}{sustainable ? <Ionicons name="ios-leaf" style={{ fontSize: 35, color: 'green' }} />: <View></View>}
+                {sustainable ? <Ionicons name="ios-leaf" style={{ fontSize: 35, color: 'green' }} />: <View></View>}{beans}
                 </Button>
             </Right>
           </CardItem>

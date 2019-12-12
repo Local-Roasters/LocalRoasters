@@ -27,7 +27,7 @@ class Profile extends React.Component {
 		let deviceId = Constants.installationId;
 		try {
 			let { data } = await axios.get(`https://localroasters-api.herokuapp.com/users/?phoneID=${deviceId}`);
-			data.price === 1 ? this.setState({ money1: 2 }) : data.price === 2 ? this.setState({ money2: 2 }) : this.setState({ money3: 2 });
+			data.price === 2 ? this.setState({ money1: 2 }) : data.price === 4 ? this.setState({ money2: 2 }) : this.setState({ money3: 2 });
 			data.coffee.roast === "Light" ? this.setState({ seg1: 2 }) : data.coffee.roast === "Medium" ? this.setState({ seg2: 2 }) : this.setState({ seg3: 2 });
 			this.setState({
 				coffee: data.coffee.roast,
@@ -44,7 +44,6 @@ class Profile extends React.Component {
 			selected2: value
 		});
 	}
-
 	goToAbout = () => {
 		Actions.home()
 	}
@@ -85,7 +84,7 @@ class Profile extends React.Component {
 		else {
 			this.setState({ money1: 2, money2: 1, money3: 1 })
 		}
-		this.setState({ price: 1 })
+		this.setState({ price: 2 })
 	}
 	onChangeMoney2() {
 		if (this.state.money2 == 2) {
@@ -94,7 +93,7 @@ class Profile extends React.Component {
 		else {
 			this.setState({ money1: 1, money2: 2, money3: 1 })
 		}
-		this.setState({ price: 2 })
+		this.setState({ price: 4 })
 	}
 	onChangeMoney3() {
 		if (this.state.money3 == 2) {
@@ -103,7 +102,7 @@ class Profile extends React.Component {
 		else {
 			this.setState({ money1: 1, money2: 1, money3: 2 })
 		}
-		this.setState({ price: 3 })
+		this.setState({ price: 6 })
 	}
 
 	onSubmit() {
@@ -112,7 +111,7 @@ class Profile extends React.Component {
 			"coffee": { "roast": this.state.coffee },
 			"price": this.state.price
 		}
-		console.log(data)
+		this.props.storeUserPref(data)
 		axios.put(`https://localroasters-api.herokuapp.com/users/`,data).then(res=>Alert.alert("Updated Roast Preferences!"))
 	}
 	goToHome() {
@@ -262,4 +261,9 @@ const styles = StyleSheet.create({
 		marginLeft: 'auto',
 		color: 'white'
 	},
+	content:{
+		marginRight: 'auto',
+		marginLeft: 'auto',
+		width: '80%'
+	}
 })
