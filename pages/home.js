@@ -82,10 +82,13 @@ class Home extends React.Component {
               <Image source={{ uri: img }} style={styles.thumbNail}/>
             </Left>
             <Right>
-                <Text style={styles.name}>{name}</Text>
-                <Text style={styles.price}>${price}</Text>
+                <Text style={styles.name}>
+                  
+                    {name} {sustainable ? <Ionicons name="ios-leaf" style={{ fontSize: 35, color: 'green' }} />: <></>}
+              </Text>
+                <Text style={styles.price}>${price} per cup</Text>
                 <Button transparent textStyle={{ color: "#87838B" }}>
-                {beans}{sustainable ? <Ionicons name="ios-leaf" style={{ fontSize: 35, color: 'green' }} />: <View></View>}
+                {beans}
                 </Button>
               
             </Right>
