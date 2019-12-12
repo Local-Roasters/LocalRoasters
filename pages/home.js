@@ -89,11 +89,12 @@ class Home extends React.Component {
         <Card style={styles.cardItems}>
           <CardItem>
             <Left>
-              <Thumbnail source={{ uri: img }} />
-              <Body>
-                <Text>{name}</Text>
-                <Text>Price: ${price}</Text>
-              </Body>
+              <Image source={{ uri: img }} style={styles.thumbNail}/>
+               {/* <Thumbnail source={{ uri: img }} /> */}
+               {/* <Body>
+                 <Text>{name}</Text>
+                 <Text>Price: ${price}</Text>
+               </Body> */}
             </Left>
             <Right>
                 <Text style={styles.name}>{name}</Text>
@@ -110,8 +111,8 @@ class Home extends React.Component {
     let i = 0;
     return (
       <Container>
-       <Text style={styles.title}>Roasters Near You</Text>
         <Header style={{ backgroundColor: 'white' }}>
+        <Text style={styles.title}>Roasters Near You</Text>
           <Right>
             <TouchableOpacity onPress={() => this.setState({sustainableFilter: !this.state.sustainableFilter})}>
               <Ionicons name="ios-leaf" style={this.state.sustainableFilter === false ? { fontSize: 35 } :  { fontSize: 35, color: 'green' }}/> 
@@ -223,5 +224,25 @@ const styles = StyleSheet.create({
     marginTop: "auto",
     marginBottom: "auto",
     color: 'white'
+  },
+  price:{	
+    fontSize: 16,	
+    color: 'green'	
+  },	
+  name:{	
+    fontSize: 18,	
+    fontWeight: 'bold'	
+  },	
+  thumbNail:{	
+    width: '85%',	
+    height: 100,	
+    borderRadius:15,	
+    padding: 0	
+  },	
+  title:{	
+    fontSize: 25,	
+    fontWeight: 'bold',	
+    alignSelf: 'center',	
+    padding: 10	
   }
 });
