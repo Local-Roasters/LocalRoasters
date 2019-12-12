@@ -2,10 +2,12 @@ import React from 'react';import { Container, Header, Content, Footer, FooterTab
 import { StyleSheet, Text, View,Image, Alert } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { Actions } from 'react-native-router-flux';
+import { connect } from "react-redux";
+import { storeUserPrefThunk } from '../store/utilities/userPref';
 import Constants from 'expo-constants';
 import axios from 'axios';
 
-export default class Profile extends React.Component {
+class Profile extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -21,18 +23,18 @@ export default class Profile extends React.Component {
 		};
 	}
 
-	componentDidMount = async() =>{
+	componentDidMount = async () => {
 		let deviceId = Constants.installationId;
-		try{
-			let {data} = await axios.get(`https://localroasters-api.herokuapp.com/users/?phoneID=${deviceId}`);
-			data.price === 1 ? this.setState({money1:2}) : data.price === 2? this.setState({money2:2}) : this.setState({money3:2});
-			data.coffee.roast === "Light"? this.setState({seg1:2}) : data.coffee.roast === "Medium"? this.setState({seg2:2}) : this.setState({seg3:2});
+		try {
+			let { data } = await axios.get(`https://localroasters-api.herokuapp.com/users/?phoneID=${deviceId}`);
+			data.price === 1 ? this.setState({ money1: 2 }) : data.price === 2 ? this.setState({ money2: 2 }) : this.setState({ money3: 2 });
+			data.coffee.roast === "Light" ? this.setState({ seg1: 2 }) : data.coffee.roast === "Medium" ? this.setState({ seg2: 2 }) : this.setState({ seg3: 2 });
 			this.setState({
-				coffee:data.coffee.roast,
-				price:data.price
+				coffee: data.coffee.roast,
+				price: data.price
 			})
 		}
-		catch(err){
+		catch (err) {
 			console.log(err);
 		}
 	}
@@ -46,7 +48,7 @@ export default class Profile extends React.Component {
 	goToAbout = () => {
 		Actions.home()
 	}
-	goToCoffeeMap = () =>{
+	goToCoffeeMap = () => {
 		Actions.coffeeMap();
 	}
 	onChangeCoffee1() {
@@ -107,12 +109,11 @@ export default class Profile extends React.Component {
 	onSubmit() {
 		let data = {
 			"phoneID": Constants.installationId,
-			"coffee": {"roast": this.state.coffee},
+			"coffee": { "roast": this.state.coffee },
 			"price": this.state.price
 		}
 		console.log(data)
 		axios.put(`https://localroasters-api.herokuapp.com/users/`,data).then(res=>Alert.alert("Updated Roast Preferences!"))
-		
 	}
 	goToHome() {
 		Actions.home()
@@ -121,7 +122,7 @@ export default class Profile extends React.Component {
 		return (
 			<Container>
 				<Content style={styles.content}>
-				<Item style={{ borderBottomWidth: 0 }}>
+					<Item style={{ borderBottomWidth: 0 }}>
 						<Image
 							source={require("../images/profile.png")}
 							style={styles.profileImage}
@@ -176,23 +177,38 @@ export default class Profile extends React.Component {
 						<Text style={styles.buttonText}>Update</Text>
 					</Button>
 				</Content>
-			<Footer>
-				<FooterTab>
-					<Button style={styles.navButton} onPress={()=>this.goToHome()}>
-						<Icon size={24} color="white" name="home"></Icon>
-					</Button>
-					<Button style={styles.navButton} onPress={()=>this.goToCoffeeMap()}>
-						<Icon size={24} color="white" name="map-marker-radius"></Icon>
-					</Button>
-					<Button style={styles.navButton}>
-						<Icon size={24} color="white" name="account-box"></Icon>
-					</Button>
-				</FooterTab>
-            </Footer>
-		</Container>
+				<Footer>
+					<FooterTab>
+						<Button style={styles.navButton} onPress={() => this.goToHome()}>
+							<Icon size={24} color="white" name="home"></Icon>
+						</Button>
+						<Button style={styles.navButton} onPress={() => this.goToCoffeeMap()}>
+							<Icon size={24} color="white" name="map-marker-radius"></Icon>
+						</Button>
+						<Button style={styles.navButton}>
+							<Icon size={24} color="white" name="account-box"></Icon>
+						</Button>
+					</FooterTab>
+				</Footer>
+			</Container>
 		);
 	}
 }
+
+const mapState = state => {
+	return {
+		userPref: state.userPref
+	};
+};
+
+const mapDispatch = dispatch => {
+	return {
+		storeUserPref: (preferences) => dispatch(storeUserPrefThunk(preferences))
+	};
+};
+
+export default connect(mapState, mapDispatch)(Profile);
+
 const styles = StyleSheet.create({
 	midText: {
 		marginTop: '50%',
@@ -201,7 +217,7 @@ const styles = StyleSheet.create({
 	},
 	navButton: {
 		backgroundColor: "#9A764E",
-		borderRadius:0
+		borderRadius: 0
 	},
 	navText: {
 		color: "white"

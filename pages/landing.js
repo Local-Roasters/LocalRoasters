@@ -1,7 +1,9 @@
 import React from 'react'
-import { StyleSheet,View, Text, Image} from 'react-native';
-import { Container, Content,  Button, Card, CardItem,  } from 'native-base';
+import { StyleSheet, View, Text, Image } from 'react-native';
+import { Container, Content, Button, Card, CardItem, } from 'native-base';
 import { Actions } from 'react-native-router-flux';
+import { connect } from "react-redux";
+import { storeUserPrefThunk } from '../store/utilities/userPref';
 import Constants from 'expo-constants';
 import axios from 'axios';
 
@@ -24,14 +26,14 @@ class Landing extends React.Component {
 
 	async componentDidMount() {
 		let deviceId = Constants.installationId;
-		console.log(deviceId)
-		try{
-			let {data} = await axios.get(`https://localroasters-api.herokuapp.com/users/?phoneID=${deviceId}`);
-			if(data){
+		try {
+			let { data } = await axios.get(`https://localroasters-api.herokuapp.com/users/?phoneID=${deviceId}`);
+			if (data) {
+				await this.props.storeUserPref(data);
 				Actions.home();
 			}
 		}
-		catch(err){
+		catch (err) {
 			console.log(err);
 		}
 	}
@@ -102,11 +104,10 @@ class Landing extends React.Component {
 	onSubmit() {
 		let data = {
 			"phoneID": Constants.installationId,
-			"coffee": {"roast": this.state.coffee},
+			"coffee": { "roast": this.state.coffee },
 			"price": this.state.price
 		}
-		console.log(data)
-		axios.post(`https://localroasters-api.herokuapp.com/users/`,data);
+		axios.post(`https://localroasters-api.herokuapp.com/users/`, data);
 		Actions.home()
 	}
 	render() {
@@ -165,6 +166,22 @@ class Landing extends React.Component {
 		)
 	}
 }
+
+const mapState = (state) => {
+	return {
+		userPref: state.userPref
+	};
+};
+
+const mapDispatch = (dispatch) => {
+	return {
+		storeUserPref: (preferences) => dispatch(storeUserPrefThunk(preferences))
+	};
+};
+
+export default connect(mapState, mapDispatch)(Landing);
+
+
 const styles = StyleSheet.create({
 	container: {
 		width: "100%"
@@ -215,4 +232,3 @@ const styles = StyleSheet.create({
 		color: 'white'
 	}
 })
-export default Landing

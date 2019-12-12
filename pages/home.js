@@ -7,6 +7,7 @@ import axios from "axios";
 import { Actions } from "react-native-router-flux";
 import { connect } from "react-redux";
 import { storeCoffeeShopThunk, getCoffeeShopThunk } from "../store/utilities/coffeeShop";
+import { getUserPrefThunk } from "../store/utilities/userPref";
 
 class Home extends React.Component {
   constructor(props) {
@@ -20,32 +21,19 @@ class Home extends React.Component {
     this.goToCoffeeShop = this.goToCoffeeShop.bind(this);
   }
   async componentDidMount() {
+    this._isMounted = true;
+    await this.props.getUserPref();
     try {
       await this.props.getCoffeeShop();
-      try {
-        await navigator.geolocation.getCurrentPosition(
-          async position => {
-            const obj = JSON.stringify(position);
-            const location = JSON.parse(obj);
-            console.log(location)          
-              let { data } = await axios.get(
-                `https://localroasters-api.herokuapp.com/roasters/?latitude=${location[`coords`][`latitude`]}&longitude=${location[`coords`][`longitude`]}`
-
-              );
-              await console.log(data);
-              this._isMounted = true;
-              if (this._isMounted) {
-              this.setState({
-                coffeeShops: data,
-                sustainableCoffeeShops: data.filter(coffeeShops => coffeeShops.sustainable === true)
-              });
-              }
-            })
-  
-              }catch(err){
-                console.log(err)
-              }
-      
+      let { data } = await axios.get(
+        `https://localroasters-api.herokuapp.com/roasters/?latitude=40.678833&longitude=-73.950676`
+      );
+      if (this._isMounted) {
+        this.setState({
+          coffeeShops: data.filter(coffeeShops => coffeeShops.coffee.roast == this.props.userPref.coffee.roast || coffeeShops.price <= this.props.userPref.price),
+          sustainableCoffeeShops: data.filter(coffeeShops => coffeeShops.sustainable === true)
+        });
+      }
     } catch (err) {
       console.log(err);
     }
@@ -96,9 +84,8 @@ class Home extends React.Component {
                 <Text style={styles.name}>{name}</Text>
                 <Text style={styles.price}>${price}</Text>
                 <Button transparent textStyle={{ color: "#87838B" }}>
-                {beans}
+                {beans}{sustainable ? <Ionicons name="ios-leaf" style={{ fontSize: 35, color: 'green' }} />: <View></View>}
                 </Button>
-                {sustainable ? <Ionicons name="ios-leaf" style={{ fontSize: 35, color: 'green' }} />: <View></View>}
             </Right>
           </CardItem>
         </Card>
@@ -110,14 +97,14 @@ class Home extends React.Component {
         <Header style={{ backgroundColor: 'white', marginTop:'7%' }}>
         <Text style={styles.title}>Roasters Near You</Text>
           <Right>
-            <TouchableOpacity onPress={() => this.setState({sustainableFilter: !this.state.sustainableFilter})}>
-              <Ionicons name="ios-leaf" style={this.state.sustainableFilter === false ? { fontSize: 35 } :  { fontSize: 35, color: 'green' }}/> 
+            <TouchableOpacity onPress={() => this.setState({ sustainableFilter: !this.state.sustainableFilter })}>
+              <Ionicons name="ios-leaf" style={this.state.sustainableFilter === false ? { fontSize: 35 } : { fontSize: 35, color: 'green' }} />
             </TouchableOpacity>
           </Right>
         </Header>
         <SafeAreaView style={styles.container}>
           <FlatList
-            data={this.state.sustainableFilter === false? this.state.coffeeShops : this.state.sustainableCoffeeShops}
+            data={this.state.sustainableFilter === false ? this.state.coffeeShops : this.state.sustainableCoffeeShops}
             renderItem={({ item }) => (
               <TouchableHighlight
                 onPress={() => {
@@ -165,14 +152,16 @@ class Home extends React.Component {
 
 const mapState = state => {
   return {
-    coffeeShop: state.coffeeShops
+    coffeeShop: state.coffeeShops,
+    userPref: state.userPref
   };
 };
 
 const mapDispatch = dispatch => {
   return {
     storeCoffeeShop: coffeeShop => dispatch(storeCoffeeShopThunk(coffeeShop)),
-    getCoffeeShop: () => dispatch(getCoffeeShopThunk())
+    getCoffeeShop: () => dispatch(getCoffeeShopThunk()),
+    getUserPref: () => dispatch(getUserPrefThunk())
   };
 };
 
