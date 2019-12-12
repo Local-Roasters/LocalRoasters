@@ -1,5 +1,5 @@
 import React from "react";
-import {Container,CardItem,Thumbnail,Footer,FooterTab,Button,Card,Body,Left, Right,Header} from "native-base";
+import {Container,CardItem,Footer,FooterTab,Button,Card,Body,Left, Right,Header} from "native-base";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { StyleSheet, TouchableOpacity, SafeAreaView, Image, FlatList, Text, TouchableHighlight, View  } from "react-native";
@@ -25,15 +25,27 @@ class Home extends React.Component {
     await this.props.getUserPref();
     try {
       await this.props.getCoffeeShop();
-      let { data } = await axios.get(
-        `https://localroasters-api.herokuapp.com/roasters/?latitude=40.678833&longitude=-73.950676`
-      );
-      if (this._isMounted) {
-        this.setState({
-          coffeeShops: data.filter(coffeeShops => coffeeShops.coffee.roast == this.props.userPref.coffee.roast || coffeeShops.price <= this.props.userPref.price),
-          sustainableCoffeeShops: data.filter(coffeeShops => coffeeShops.sustainable === true)
-        });
-      }
+      try {
+        await navigator.geolocation.getCurrentPosition(
+          async position => {
+            const obj = JSON.stringify(position);
+            const location = JSON.parse(obj);          
+              let { data } = await axios.get(
+                `https://localroasters-api.herokuapp.com/roasters/?latitude=${location[`coords`][`latitude`]}&longitude=${location[`coords`][`longitude`]}`
+              );
+              await console.log(data);
+              this._isMounted = true;
+              if (this._isMounted) {
+              this.setState({
+                coffeeShops: data,
+                sustainableCoffeeShops: data.filter(coffeeShops => coffeeShops.sustainable === true)
+              });
+              }
+            })
+  
+              }catch(err){
+                console.log(err)
+              }
     } catch (err) {
       console.log(err);
     }
@@ -50,7 +62,6 @@ class Home extends React.Component {
   async goToCoffeeShop(id) {
     try {
       let select = this.state.coffeeShops.filter(a => a._id == id);
-
       await this.props.storeCoffeeShop(select[0]);
       Actions.coffeeShop();
     } catch (err) {
@@ -67,8 +78,8 @@ class Home extends React.Component {
             key={i}
             source={image}
             style={{
-              height: 30,
-              width: 30,
+              height: 23,
+              width: 23,
               flexDirection: "row",
               marginLeft: 5
             }}
@@ -99,8 +110,7 @@ class Home extends React.Component {
     let i = 0;
     return (
       <Container>
-       
-        <Header style={{ backgroundColor: 'white' }}>
+        <Header style={{ backgroundColor: 'white', marginTop:'7%' }}>
         <Text style={styles.title}>Roasters Near You</Text>
           <Right>
             <TouchableOpacity onPress={() => this.setState({ sustainableFilter: !this.state.sustainableFilter })}>
@@ -133,7 +143,7 @@ class Home extends React.Component {
           ></FlatList>
         </SafeAreaView>
         <TouchableOpacity style={styles.addButton} onPress={() => Actions.addCoffeeShop()}>
-          <Text style={styles.plusText}>+</Text>
+          <Text style={styles.plusText}>+ Roaster</Text>
         </TouchableOpacity>
         <Footer>
           <FooterTab>
@@ -198,7 +208,7 @@ const styles = StyleSheet.create({
     color: "white"
   },
   addButton: {
-    width: 50,
+    width: 120,
     height: 50,
     position: 'absolute',
     right: '5%',
@@ -209,7 +219,7 @@ const styles = StyleSheet.create({
   plusText: {
     position: 'relative',
     color: 'white',
-    fontSize: 40,
+    fontSize: 20,
     marginRight: 'auto',
     marginLeft: 'auto',
     marginTop: "auto",
