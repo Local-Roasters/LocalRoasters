@@ -33,7 +33,7 @@ class Home extends React.Component {
               let { data } = await axios.get(
                 `https://localroasters-api.herokuapp.com/roasters/?latitude=${location[`coords`][`latitude`]}&longitude=${location[`coords`][`longitude`]}`
               );
-              await console.log(data);
+              // await console.log(data);
               this._isMounted = true;
               if (this._isMounted) {
               this.setState({
@@ -94,8 +94,7 @@ class Home extends React.Component {
             </Left>
             <Right>
                 <Text style={styles.name}>
-                  
-                    {name} {sustainable ? <Ionicons name="ios-leaf" style={{ fontSize: 35, color: 'green' }} />: <></>}
+                    {name} {sustainable ? <Ionicons name="ios-leaf" style={{ fontSize: 20, color: 'green' }} />: <></>}
               </Text>
                 <Text style={styles.price}>${price} per cup</Text>
                 <Button transparent textStyle={{ color: "#87838B" }}>
@@ -111,10 +110,10 @@ class Home extends React.Component {
     return (
       <Container>
         <Header style={{ backgroundColor: 'white', marginTop:'7%' }}>
-        <Text style={styles.title}>Roasters Near You</Text>
+        <Text style={styles.title}>Local Roasters Near You</Text>
           <Right>
             <TouchableOpacity onPress={() => this.setState({ sustainableFilter: !this.state.sustainableFilter })}>
-              <Ionicons name="ios-leaf" style={this.state.sustainableFilter === false ? { fontSize: 35 } : { fontSize: 35, color: 'green' }} />
+              <Ionicons name="ios-leaf" style={this.state.sustainableFilter === false ? { fontSize: 30, paddingBottom:25 } : { fontSize: 30, color: 'green', paddingBottom:25 }} />
             </TouchableOpacity>
           </Right>
         </Header>
@@ -201,25 +200,25 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   navButton: {
-    backgroundColor: "#9A764E",
+    backgroundColor: "#875D39",
     borderRadius: 0
   },
   navText: {
     color: "white"
   },
   addButton: {
-    width: 120,
-    height: 50,
+    width: 90,
+    height: 40,
     position: 'absolute',
     right: '5%',
     bottom: '10%',
-    backgroundColor: '#955E16',
+    backgroundColor: '#875D39',
     borderRadius: 30,
   },
   plusText: {
     position: 'relative',
     color: 'white',
-    fontSize: 20,
+    fontSize: 15,
     marginRight: 'auto',
     marginLeft: 'auto',
     marginTop: "auto",
@@ -244,6 +243,10 @@ const styles = StyleSheet.create({
     fontSize: 25,	
     fontWeight: 'bold',	
     alignSelf: 'center',	
-    padding: 10	
+    padding: 10	,
+    marginLeft:'auto',
+    marginRight:'auto',
+    marginBottom:'auto',
+    color:"#875D39"
   }
 });

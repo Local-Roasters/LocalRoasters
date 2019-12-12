@@ -26,10 +26,6 @@ class CoffeeMap extends React.Component {
         async position => {
           const obj = JSON.stringify(position);
           const location = JSON.parse(obj);
-          const currLoc = [
-            location[`coords`][`latitude`],
-            location[`coords`][`longitude`]
-          ];
           let region = {
             latitude: location[`coords`][`latitude`],
             longitude: location[`coords`][`longitude`],
@@ -43,12 +39,12 @@ class CoffeeMap extends React.Component {
             });
           }
           try {
-            console.log(currLoc)
+            // console.log(currLoc)
             let { data } = await axios.get(
               `https://localroasters-api.herokuapp.com/roasters/?latitude=${location[`coords`][`latitude`]}&longitude=${location[`coords`][`longitude`]}`
             );
             let pins = [];
-            console.log(data);
+            // console.log(data);
             data.forEach((item, i = 0) => {
               pins.push(
                 <MapView.Marker
@@ -68,7 +64,7 @@ class CoffeeMap extends React.Component {
                 </MapView.Marker>
               );
             });
-            console.log(`pins${pins[0]}`);
+            // console.log(`pins${pins[0]}`);
             if (this._isMounted) {
               this.setState({
                 pins: pins
@@ -129,9 +125,9 @@ class CoffeeMap extends React.Component {
         >
           {this.state.pins}
         </MapView>
-        <TouchableOpacity style={styles.addButton} onPress={()=>Actions.addCoffeeShop()}>
-            <Text style={styles.plusText}>+</Text>
-          </TouchableOpacity>
+          <TouchableOpacity style={styles.addButton} onPress={() => Actions.addCoffeeShop()}>
+          <Text style={styles.plusText}>+ Roaster</Text>
+        </TouchableOpacity>
         <Footer>
           <FooterTab>
             <Button style={styles.navButton} onPress={() => this.goToHome()}>
@@ -175,7 +171,7 @@ const styles = StyleSheet.create({
     alignItems: "center"
   },
   navButton: {
-    backgroundColor: "#9A764E",
+    backgroundColor: "#875D39",
     borderRadius: 0
   },
   map: {
@@ -186,18 +182,18 @@ const styles = StyleSheet.create({
     right: 0
   },
   addButton: {
-    width: 50,
-    height: 50,
+    width: 90,
+    height: 40,
     position: 'absolute',
-    top: '5%',
-    backgroundColor: '#955E16',
+    right: '5%',
+    bottom: '10%',
+    backgroundColor: '#875D39',
     borderRadius: 30,
-    alignSelf: 'flex-end'
   },
   plusText:{
     position: 'relative',
     color:'white', 
-    fontSize: 40, 
+    fontSize: 15, 
     marginRight: 'auto', 
     marginLeft: 'auto', 
     marginTop:"auto",

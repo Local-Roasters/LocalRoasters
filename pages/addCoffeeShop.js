@@ -50,6 +50,7 @@ export default () => {
 
   return (
     <View style={styles.container}>
+    <Text style={styles.title}>Add a New Roaster</Text>
       <Text style={styles.label}>Roaster Name</Text>
       <TextInput
         style={styles.input}
@@ -73,6 +74,8 @@ export default () => {
       <TextInput
         style={styles.input}
         onChangeText={text => setValue('zipcode', text)}
+        placeholder = {"eg 11216"}
+        
       />
       
 
@@ -85,15 +88,18 @@ export default () => {
 
 const styles = StyleSheet.create({
   label: {
-    color: 'white',
+    color: 'black',
     margin: 20,
-    marginLeft: 0
+    marginLeft: "10%"
   },
   button :{
     marginTop: 40,
     color: 'white',
     height: 40,
-    backgroundColor: '#9A764E',
+    width:"60%",
+    marginLeft:"auto",
+    marginRight:"auto", 
+    backgroundColor: '#875D39',
     borderRadius: 4
   },
   container: {
@@ -101,14 +107,26 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     paddingTop: 1,
     padding: 8,
-    backgroundColor: "#036635"
+    backgroundColor: "#fff"
   },
   input: {
     backgroundColor: 'white',
-
     height: 40,
+    width:"80%",
+    marginLeft:"auto",
+    marginRight:'auto',
     padding: 10,
+    borderWidth:.5,
+    borderColor:"black",
     borderRadius: 4,
   },
+  title:{	
+    fontSize: 25,	
+    fontWeight: 'bold',	
+    alignSelf: 'center',	
+    marginLeft:'auto',
+    marginRight:'auto',
+    color:"#875D39"
+  }
 });
 

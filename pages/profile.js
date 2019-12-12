@@ -215,7 +215,7 @@ const styles = StyleSheet.create({
 		marginLeft: "auto"
 	},
 	navButton: {
-		backgroundColor: "#9A764E",
+		backgroundColor: "#875D39",
 		borderRadius: 0
 	},
 	navText: {
@@ -252,7 +252,7 @@ const styles = StyleSheet.create({
 		padding: 10,
 		width: '50%',
 		marginTop: 50,
-		backgroundColor: '#6f4e37',
+		backgroundColor: '#875D39',
 		alignSelf: 'center',
 		borderRadius: 20
 	},

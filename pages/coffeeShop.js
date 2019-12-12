@@ -21,8 +21,7 @@ class CoffeeShop extends React.Component {
     try {
       //Just updates the state
       await this.props.getCoffeeShop();
-      console.log("in shop");
-      console.log(this.props.coffeeShop);
+      // console.log(this.props.coffeeShop);
       if (this._isMounted) {
         this.setState({
           selectCoffeeShop: this.props.coffeeShop,
