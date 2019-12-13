@@ -2,7 +2,7 @@ import React from "react";
 import {Container,CardItem,Footer,FooterTab,Button,Card,Body,Left, Right,Header} from "native-base";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import Ionicons from "react-native-vector-icons/Ionicons";
-import { StyleSheet, TouchableOpacity, SafeAreaView, Image, FlatList, Text, TouchableHighlight, View  } from "react-native";
+import { StyleSheet, TouchableOpacity, SafeAreaView, Image, FlatList, Text, TouchableHighlight, View, Linking, Platform, location} from "react-native";
 import axios from "axios";
 import { Actions } from "react-native-router-flux";
 import { connect } from "react-redux";
@@ -31,13 +31,22 @@ class Home extends React.Component {
             const obj = JSON.stringify(position);
             const location = JSON.parse(obj);          
               let { data } = await axios.get(
-                `https://localroasters-api.herokuapp.com/roasters/?latitude=${location[`coords`][`latitude`]}&longitude=${location[`coords`][`longitude`]}`
+                `https://localroasters-api.herokuapp.com/roasters/?latitude=40.678833&longitude=-73.950676`
+                // `https://localroasters-api.herokuapp.com/roasters/?latitude=${location[`coords`][`latitude`]}&longitude=${location[`coords`][`longitude`]}`
               );
               // await console.log(data);
               this._isMounted = true;
               if (this._isMounted) {
+                let filtered;
+                if(this.props.userPref.price<6){
+                  filtered=data.filter(coffeeShops => coffeeShops.price <= this.props.userPref.price)
+                }else{
+                  filtered=data.filter(coffeeShops => coffeeShops.price >= this.props.userPref.price)
+                }
+                  filtered=filtered.filter(coffeeShops => coffeeShops.coffee.roast == this.props.userPref.coffee.roast)
+              console.log(filtered)
               this.setState({
-                coffeeShops: data,
+                coffeeShops: filtered,
                 sustainableCoffeeShops: data.filter(coffeeShops => coffeeShops.sustainable === true)
               });
               }
@@ -69,7 +78,14 @@ class Home extends React.Component {
     }
   }
   render() {
-    function Item({ name, img, price, coffeeBeans, sustainable }) {
+    function Item({ name, img, price, coffeeBeans, sustainable, location}) {
+      const scheme = Platform.select({ ios: 'maps:0,0?q=', android: 'geo:0,0?q=' });
+      const latLng = `${location.latitude},${location.longitude}`;
+      const label = 'Custom Label';
+      const url = Platform.select({
+        ios: `${scheme}${label}@${latLng}`,
+        android: `${scheme}${latLng}(${label})`
+      });
       let beans = [];
       for (let i = 0; i < 5; i++) {
         let image = i < coffeeBeans ? require("./../images/coffee-grain-fill.png") : require("./../images/coffee-grain.png");
@@ -100,7 +116,10 @@ class Home extends React.Component {
                 <Button transparent textStyle={{ color: "#87838B" }}>
                 {beans}
                 </Button>
-              
+                <Button style={styles.directionArrow} onPress={() => Linking.openURL(url)}>
+                  <Text style={{marginRight:'auto', marginLeft:'auto'}}>Directions </Text>
+                  <Image source={require('./../images/map_arrow.png')} style={styles.mapArrow}/>
+                </Button>
             </Right>
           </CardItem>
         </Card>
@@ -135,6 +154,7 @@ class Home extends React.Component {
                   price={item.price}
                   coffeeBeans={item.rating}
                   sustainable={item.sustainable}
+                  location={item.location}
                 />
               </TouchableHighlight>
             )}
@@ -248,5 +268,17 @@ const styles = StyleSheet.create({
     marginRight:'auto',
     marginBottom:'auto',
     color:"#875D39"
+  },
+  mapArrow:{
+    height: 25,
+    width: 25,
+    marginRight:'auto', 
+    marginLeft:'auto'
+  },
+  directionArrow:{
+    width: '90%',
+    backgroundColor: 'white',
+    borderWidth:1,
+    borderColor: 'brown'
   }
 });
