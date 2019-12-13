@@ -1,6 +1,6 @@
 import React from "react";
-import {Content,CardItem,Card,Body,Item} from "native-base";
-import { StyleSheet, Text, View, Image } from "react-native";
+import {Content,CardItem,Card,Body,Item, Button} from "native-base";
+import { StyleSheet, Text, View, Image,Linking, Platform, location } from "react-native";
 import { connect } from "react-redux";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import {getCoffeeShopThunk} from "../store/utilities/coffeeShop";
@@ -21,7 +21,7 @@ class CoffeeShop extends React.Component {
     try {
       //Just updates the state
       await this.props.getCoffeeShop();
-      // console.log(this.props.coffeeShop);
+      console.log(this.props.coffeeShop);
       if (this._isMounted) {
         this.setState({
           selectCoffeeShop: this.props.coffeeShop,
@@ -62,7 +62,13 @@ class CoffeeShop extends React.Component {
       );
     }
     let imgUrl = "" + img;
-
+    const scheme = Platform.select({ ios: 'maps:0,0?q=', android: 'geo:0,0?q=' });
+    const latLng = `${this.props.coffeeShop.location.latitude},${this.props.coffeeShop.location.longitude}`;
+    const label = 'Custom Label';
+    const url = Platform.select({
+      ios: `${scheme}${label}@${latLng}`,
+      android: `${scheme}${latLng}(${label})`
+    });
     return (
       <Content style={styles.content}>
         <Image source={{ uri: imgUrl }} style={styles.background} />
@@ -97,6 +103,10 @@ class CoffeeShop extends React.Component {
             </Body>
           </CardItem>
         </Card>
+        <Button style={styles.directionArrow} onPress={() => Linking.openURL(url)}>
+                  <Text style={{marginRight:'auto', marginLeft:'auto'}}>Directions </Text>
+                  <Image source={require('./../images/map_arrow.png')} style={styles.mapArrow}/>
+        </Button>
       </Content>
     );
   }
@@ -187,5 +197,21 @@ const styles = StyleSheet.create({
     width: "80%",
     marginRight: "auto",
     marginLeft: "auto"
+  },
+  mapArrow:{
+    height: 25,
+    width: 25,
+    marginRight:'auto', 
+    marginLeft:'auto',
+    marginTop: '5%'
+  },
+  directionArrow:{
+    width: '50%',
+    backgroundColor: 'white',
+    borderWidth:1,
+    borderColor: 'brown',
+    marginRight:'auto', 
+    marginLeft:'auto',
+    marginTop: '5%'
   }
 });
