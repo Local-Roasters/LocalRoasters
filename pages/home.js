@@ -66,7 +66,7 @@ class Home extends React.Component {
     }
   }
   render() {
-    function Item({ name, img, price, coffeeBeans, sustainable, location }) {
+    function Item({ name, img, price, coffeeBeans, sustainable, location, roast }) {
       const scheme = Platform.select({ ios: 'maps:0,0?q=', android: 'geo:0,0?q=' });
       const latLng = `${location.latitude},${location.longitude}`;
       const label = 'Custom Label';
@@ -101,6 +101,7 @@ class Home extends React.Component {
                 {name} {sustainable ? <Ionicons name="ios-leaf" style={{ fontSize: 20, color: 'green' }} /> : <></>}
               </Text>
               <Text style={styles.price}>${price} per cup</Text>
+              <Text style={styles.roastName}> Roast: {roast}</Text>
               <Button transparent textStyle={{ color: "#87838B" }}>
                 {beans}
               </Button>
@@ -143,6 +144,7 @@ class Home extends React.Component {
                   coffeeBeans={item.rating}
                   sustainable={item.sustainable}
                   location={item.location}
+                  roast={item.coffee.roast}
                 />
               </TouchableHighlight>
             )}
@@ -236,6 +238,10 @@ const styles = StyleSheet.create({
   price: {
     fontSize: 16,
     color: 'green'
+  },
+  roastName: {
+    fontSize: 16,
+    color: '#875D39'
   },
   name: {
     fontSize: 18,
