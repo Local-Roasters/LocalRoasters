@@ -27,7 +27,7 @@ class Profile extends React.Component {
 		let deviceId = Constants.installationId;
 		try {
 			let { data } = await axios.get(`https://localroasters-api.herokuapp.com/users/?phoneID=${deviceId}`);
-			data.price === 2 ? this.setState({ money1: 2 }) : data.price === 5 ? this.setState({ money2: 2 }) : this.setState({ money3: 2 });
+			data.price === 3 ? this.setState({ money1: 2 }) : data.price === 5 ? this.setState({ money2: 2 }) : this.setState({ money3: 2 });
 			data.coffee.roast === "Light" ? this.setState({ seg1: 2 }) : data.coffee.roast === "Medium" ? this.setState({ seg2: 2 }) : this.setState({ seg3: 2 });
 			this.setState({
 				coffee: data.coffee.roast,
@@ -84,7 +84,7 @@ class Profile extends React.Component {
 		else {
 			this.setState({ money1: 2, money2: 1, money3: 1 })
 		}
-		this.setState({ price: 2 })
+		this.setState({ price: 3 })
 	}
 	onChangeMoney2() {
 		if (this.state.money2 == 2) {
@@ -102,7 +102,7 @@ class Profile extends React.Component {
 		else {
 			this.setState({ money1: 1, money2: 1, money3: 2 })
 		}
-		this.setState({ price: 6 })
+		this.setState({ price: 1000000})
 	}
 
 	onSubmit() {
