@@ -31,23 +31,17 @@ class Home extends React.Component {
             const obj = JSON.stringify(position);
             const location = JSON.parse(obj);          
               let { data } = await axios.get(
-                `https://localroasters-api.herokuapp.com/roasters/?latitude=40.678833&longitude=-73.950676`
-                // `https://localroasters-api.herokuapp.com/roasters/?latitude=${location[`coords`][`latitude`]}&longitude=${location[`coords`][`longitude`]}`
+                // `https://localroasters-api.herokuapp.com/roasters/?latitude=40.678833&longitude=-73.950676`
+                `https://localroasters-api.herokuapp.com/roasters/?latitude=${location[`coords`][`latitude`]}&longitude=${location[`coords`][`longitude`]}`
               );
               // await console.log(data);
+              console.log(data)
               this._isMounted = true;
+              let filtered = data.filter(roast => roast.coffee.roast == this.props.userPref.coffee.roast || roast.price <= this.props.userPref.price)
               if (this._isMounted) {
-                let filtered;
-                if(this.props.userPref.price<6){
-                  filtered=data.filter(coffeeShops => coffeeShops.price <= this.props.userPref.price)
-                }else{
-                  filtered=data.filter(coffeeShops => coffeeShops.price >= this.props.userPref.price)
-                }
-                  filtered=filtered.filter(coffeeShops => coffeeShops.coffee.roast == this.props.userPref.coffee.roast)
-              console.log(filtered)
               this.setState({
                 coffeeShops: filtered,
-                sustainableCoffeeShops: data.filter(coffeeShops => coffeeShops.sustainable === true)
+                sustainableCoffeeShops: filtered.filter(coffeeShops => coffeeShops.sustainable === true)
               });
               }
             })
