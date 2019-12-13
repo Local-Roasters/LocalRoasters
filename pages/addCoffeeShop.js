@@ -35,7 +35,8 @@ export default () => {
     })
     .catch(err=>{
       Alert.alert(res.data.msg)
-    console.log(err)}
+    // console.log(err)
+    }
     )
     Actions.pop();
   };

@@ -1,8 +1,8 @@
 import React from "react";
-import {Container,CardItem,Footer,FooterTab,Button,Card,Body,Left, Right,Header} from "native-base";
+import { Container, CardItem, Footer, FooterTab, Button, Card, Body, Left, Right, Header } from "native-base";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import Ionicons from "react-native-vector-icons/Ionicons";
-import { StyleSheet, TouchableOpacity, SafeAreaView, Image, FlatList, Text, TouchableHighlight, View, Linking, Platform, location} from "react-native";
+import { StyleSheet, TouchableOpacity, SafeAreaView, Image, FlatList, Text, TouchableHighlight, View, Linking, Platform, location } from "react-native";
 import axios from "axios";
 import { Actions } from "react-native-router-flux";
 import { connect } from "react-redux";
@@ -29,28 +29,23 @@ class Home extends React.Component {
         await navigator.geolocation.getCurrentPosition(
           async position => {
             const obj = JSON.stringify(position);
-            const location = JSON.parse(obj);          
-              let { data } = await axios.get(
-                // `https://localroasters-api.herokuapp.com/roasters/?latitude=40.678833&longitude=-73.950676`
-                `https://localroasters-api.herokuapp.com/roasters/?latitude=${location[`coords`][`latitude`]}&longitude=${location[`coords`][`longitude`]}`
-              );
-              // await console.log(data);
-              console.log(data)
-              this._isMounted = true;
-              let filtered = data.filter(roast => roast.coffee.roast == this.props.userPref.coffee.roast || roast.price <= this.props.userPref.price)
-              if (this._isMounted) {
+            const location = JSON.parse(obj);
+            let { data } = await axios.get(
+              // `https://localroasters-api.herokuapp.com/roasters/?latitude=40.678833&longitude=-73.950676`
+              `https://localroasters-api.herokuapp.com/roasters/?latitude=${location[`coords`][`latitude`]}&longitude=${location[`coords`][`longitude`]}`
+            );
+            this._isMounted = true;
+            let filtered = data.filter(roast => roast.coffee.roast == this.props.userPref.coffee.roast || roast.price <= this.props.userPref.price)
+            if (this._isMounted) {
               this.setState({
                 coffeeShops: filtered,
                 sustainableCoffeeShops: filtered.filter(coffeeShops => coffeeShops.sustainable === true)
               });
-              }
-            })
-  
-              }catch(err){
-                console.log(err)
-              }
+            }
+          })
+      } catch (err) {
+      }
     } catch (err) {
-      console.log(err);
     }
   }
   componentWillUnmount() {
@@ -68,11 +63,10 @@ class Home extends React.Component {
       await this.props.storeCoffeeShop(select[0]);
       Actions.coffeeShop();
     } catch (err) {
-      console.log(err);
     }
   }
   render() {
-    function Item({ name, img, price, coffeeBeans, sustainable, location}) {
+    function Item({ name, img, price, coffeeBeans, sustainable, location }) {
       const scheme = Platform.select({ ios: 'maps:0,0?q=', android: 'geo:0,0?q=' });
       const latLng = `${location.latitude},${location.longitude}`;
       const label = 'Custom Label';
@@ -100,20 +94,20 @@ class Home extends React.Component {
         <Card style={styles.cardItems}>
           <CardItem>
             <Left>
-              <Image source={{ uri: img }} style={styles.thumbNail}/>
+              <Image source={{ uri: img }} style={styles.thumbNail} />
             </Left>
             <Right>
-                <Text style={styles.name}>
-                    {name} {sustainable ? <Ionicons name="ios-leaf" style={{ fontSize: 20, color: 'green' }} />: <></>}
+              <Text style={styles.name}>
+                {name} {sustainable ? <Ionicons name="ios-leaf" style={{ fontSize: 20, color: 'green' }} /> : <></>}
               </Text>
-                <Text style={styles.price}>${price} per cup</Text>
-                <Button transparent textStyle={{ color: "#87838B" }}>
+              <Text style={styles.price}>${price} per cup</Text>
+              <Button transparent textStyle={{ color: "#87838B" }}>
                 {beans}
-                </Button>
-                <Button style={styles.directionArrow} onPress={() => Linking.openURL(url)}>
-                  <Text style={{marginRight:'auto', marginLeft:'auto'}}>Directions </Text>
-                  <Image source={require('./../images/map_arrow.png')} style={styles.mapArrow}/>
-                </Button>
+              </Button>
+              <Button style={styles.directionArrow} onPress={() => Linking.openURL(url)}>
+                <Text style={{ marginRight: 'auto', marginLeft: 'auto' }}>Directions </Text>
+                <Image source={require('./../images/map_arrow.png')} style={styles.mapArrow} />
+              </Button>
             </Right>
           </CardItem>
         </Card>
@@ -122,11 +116,11 @@ class Home extends React.Component {
     let i = 0;
     return (
       <Container>
-        <Header style={{ backgroundColor: 'white', marginTop:'7%' }}>
-        <Text style={styles.title}>Local Roasters Near You</Text>
+        <Header style={{ backgroundColor: 'white', marginTop: '7%' }}>
+          <Text style={styles.title}>Local Roasters Near You</Text>
           <Right>
             <TouchableOpacity onPress={() => this.setState({ sustainableFilter: !this.state.sustainableFilter })}>
-              <Ionicons name="ios-leaf" style={this.state.sustainableFilter === false ? { fontSize: 30, paddingBottom:25 } : { fontSize: 30, color: 'green', paddingBottom:25 }} />
+              <Ionicons name="ios-leaf" style={this.state.sustainableFilter === false ? { fontSize: 30, paddingBottom: 25 } : { fontSize: 30, color: 'green', paddingBottom: 25 }} />
             </TouchableOpacity>
           </Right>
         </Header>
@@ -239,40 +233,40 @@ const styles = StyleSheet.create({
     marginBottom: "auto",
     color: 'white'
   },
-  price:{	
-    fontSize: 16,	
-    color: 'green'	
-  },	
-  name:{	
-    fontSize: 18,	
-    fontWeight: 'bold'	
-  },	
-  thumbNail:{	
-    width: '85%',	
-    height: 100,	
-    borderRadius:15,	
-    padding: 0	
-  },	
-  title:{	
-    fontSize: 25,	
-    fontWeight: 'bold',	
-    alignSelf: 'center',	
-    padding: 10	,
-    marginLeft:'auto',
-    marginRight:'auto',
-    marginBottom:'auto',
-    color:"#875D39"
+  price: {
+    fontSize: 16,
+    color: 'green'
   },
-  mapArrow:{
+  name: {
+    fontSize: 18,
+    fontWeight: 'bold'
+  },
+  thumbNail: {
+    width: '85%',
+    height: 100,
+    borderRadius: 15,
+    padding: 0
+  },
+  title: {
+    fontSize: 25,
+    fontWeight: 'bold',
+    alignSelf: 'center',
+    padding: 10,
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    marginBottom: 'auto',
+    color: "#875D39"
+  },
+  mapArrow: {
     height: 25,
     width: 25,
-    marginRight:'auto', 
-    marginLeft:'auto'
+    marginRight: 'auto',
+    marginLeft: 'auto'
   },
-  directionArrow:{
+  directionArrow: {
     width: '90%',
     backgroundColor: 'white',
-    borderWidth:1,
+    borderWidth: 1,
     borderColor: 'brown'
   }
 });

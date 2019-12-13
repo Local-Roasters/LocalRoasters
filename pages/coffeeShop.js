@@ -21,7 +21,6 @@ class CoffeeShop extends React.Component {
     try {
       //Just updates the state
       await this.props.getCoffeeShop();
-      console.log(this.props.coffeeShop);
       if (this._isMounted) {
         this.setState({
           selectCoffeeShop: this.props.coffeeShop,
@@ -31,7 +30,7 @@ class CoffeeShop extends React.Component {
       }
 
     } catch (err) {
-      console.log(err);
+      // console.log(err);
     }
   }
 
