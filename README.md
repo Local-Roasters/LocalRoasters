@@ -1,5 +1,5 @@
 # *Local Roasters*
-**Local Roasters** is a location based, personalized coffee experience.   Users can brows recommended  local shops that match their preferences, and another section will preview coffee for sale locally or online (ie on amazon)  that they may like and meet their price preferences. Users can rate and update shop information.
+**Local Roasters** is a location based, personalized coffee experience.   Users can browse recommended  local shops that match their preferences, and another section will preview coffee for sale locally or online (ie on amazon)  that they may like and meet their price preferences. Users can rate and update shop information.
 
 # Team Members 
 1. Steven Li
