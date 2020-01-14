@@ -1,22 +1,10 @@
 # *Local Roasters*
+
 **Local Roasters** is a location based, personalized coffee experience.   Users can browse recommended  local shops that match their preferences, and another section will preview coffee for sale locally or online (ie on amazon)  that they may like and meet their price preferences. Users can rate and update shop information.
 
-# Team Members 
-1. Steven Li
-   - listeven073@gmail.com
-   - ilumii
-   - Hunter College
-2. Wei (Jackie) Lin
-   - wlin041@gmail.com
-   - Jackster001
-   - Baruch College
-3. Mark Goldstein
-   - MarkGoldstein12@gmail.com
-   - Maker-Mark
-   - Brooklyn College
 
-# *Executive summary (1-2 paragraphs)*
-
+![img](https://i.imgur.com/HeNIOlf.gif)
+---
 Local Roasters is a location based, personalized coffee experience.  Users can select their coffee preferences(taste, blend, origin, fair trade), price range(such as avg per cup) and more gathering an overall measurement of how they like their coffee. Once the user goes through their preferences and signs up they get greeted by the dashboard. The dashboard display's few local shops that match their preferences, and another section will preview coffee for sale locally or online (ie on amazon)  that they may like and meet their price preferences.
 
  Local Roaster will allow users to:
